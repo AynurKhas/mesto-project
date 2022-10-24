@@ -1,0 +1,13 @@
+.profile__name-conteiner {
+  display: grid;
+  grid-template-columns: max-content min-content;
+  grid-auto-rows: auto;
+  gap: 8px 18px;
+}
+
+@media screen and (max-width: 880px) {
+  .profile__name-conteiner {
+    gap: 6px 10px;
+    padding-left: 26px
+  }
+}

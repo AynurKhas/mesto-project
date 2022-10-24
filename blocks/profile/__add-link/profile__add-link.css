@@ -1,0 +1,19 @@
+.profile__add-link {
+  display: block;
+  padding: 0;
+  margin: 0;
+  width: 150px;
+  height: 50px;
+
+  background:#000 url('../../../images/Add Button.svg') no-repeat center / cover;
+}
+
+@media screen and (max-width: 690px) {
+  .profile__add-link {
+    width: 282px;
+    height: 50px;
+
+    background:#000 url('../../../images/Add-Button-moble.svg') no-repeat center / cover;
+    margin-top: 8px;
+  }
+}
