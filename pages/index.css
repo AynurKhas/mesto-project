@@ -1,0 +1,46 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts.css);
+
+@import url(../blocks/page/page.css);
+@import url(../blocks/page/__center/page__center.css);
+@import url(../blocks/page/__hover/page__hover.css);
+
+@import url(../blocks/header/header.css);
+
+@import url(../blocks/content/content.css);
+@import url(../blocks/content/__hover/content__hover.css);
+@import url(../blocks/content/__center/content__center.css);
+
+@import url(../blocks/logo/logo.css);
+@import url(../blocks/logo/_theme/logo_theme_dark.css);
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__name-conteiner/profile__name-conteiner.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__edit-link/profile__edit-link.css);
+@import url(../blocks/profile/__profession/profile__profession.css);
+@import url(../blocks/profile/__add-link/profile__add-link.css);
+
+@import url(../blocks/elements/elements.css);
+@import url(../blocks/elements/__list/elements__list.css);
+@import url(../blocks/elements/__list-item/elements__list-item.css);
+@import url(../blocks/elements/__item-image/elements__item-image.css);
+@import url(../blocks/elements/__item-group/elements__item-group.css);
+@import url(../blocks/elements/__group-title/elements__group-title.css);
+@import url(../blocks/elements/__button/elements__button.css);
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
+
+@import url(../blocks/popap/popap.css);
+@import url(../blocks/popap/_opened/popap_opened.css);
+@import url(../blocks/popap/__close/popap__close.css);
+@import url(../blocks/popap/__conteiner/popap__conteiner.css);
+
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__title/form__title.css);
+@import url(../blocks/form/__input-container/form__input-container.css);
+@import url(../blocks/form/__item/form__item.css);
+@import url(../blocks/form/__name/form__name.css);
+@import url(../blocks/form/__profession/form__profession.css);
+@import url(../blocks/form/__button/form__button.css);

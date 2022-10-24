@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mesto russia">
+  <meta name="keywords" content="Карачаевск, Гора Эльбрус, Домбай, Карачаево-Черкеск">
+  <!-- <meta name="author" content=""> -->
+  <title>Mesto russia</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="header">
+      <a href="#" class="logo logo_theme_dark page__hover" target="_blank"></a>
+    </header>
+
+    <main class="content">
+
+      <section class="profile content__center">
+        <img src="./images/Avatar.png" alt="аватар" class="profile__avatar">
+        <div class="profile__name-conteiner">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <a class="profile__edit-link content__hover" href="#" target="_self"></a>
+          <p class="profile__profession">Исследователь океана</p>
+        </div>
+        <a class="profile__add-link content__hover" href="#" target="_self"></a>
+      </section>
+
+      <section class="elements">
+        <ul class="elements__list">
+          <li class="elements__list-item">
+            <img src="./images/Karachaevsk.jpg" alt="Карачаевск" class="elements__item-image">
+            <div class="elements__item-group">
+              <h2 class="elements__group-title">Карачаевск</h2>
+              <button class="elements__button" type="button" aria-label="Нравиться"></button>
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img src="./images/Elbrus.jpg" alt="Гора Эльбрус" class="elements__item-image">
+            <div class="elements__item-group">
+              <h2 class="elements__group-title">Гора Эльбрус</h2>
+              <button class="elements__button" type="button" aria-label="Нравиться"></button>
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img src="./images/Dombay.jpg" alt="Домбай" class="elements__item-image">
+            <div class="elements__item-group">
+              <h2 class="elements__group-title">Домбай</h2>
+              <button class="elements__button" type="button" aria-label="Нравиться"></button>
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img src="./images/Elbrus.jpg" alt="Гора Эльбрус" class="elements__item-image">
+            <div class="elements__item-group">
+              <h2 class="elements__group-title">Гора Эльбрус</h2>
+              <button class="elements__button" type="button" aria-label="Нравиться"></button>
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img src="./images/Dombay.jpg" alt="Домбай" class="elements__item-image">
+            <div class="elements__item-group">
+              <h2 class="elements__group-title">Домбай</h2>
+              <button class="elements__button" type="button" aria-label="Нравиться"></button>
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img src="./images/Karachaevsk.jpg" alt="Карачаево-Черкеск" class="elements__item-image">
+            <div class="elements__item-group">
+              <h2 class="elements__group-title">Карачаево-Черкеск</h2>
+              <button class="elements__button" type="button" aria-label="Нравиться"></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="popap popap_opened">
+        <div class="popap__conteiner">
+          <img src="./images/Close-Icon.svg" alt="закрыть" class="popap__close">
+          <form action="#" class="form">
+            <h2 class="form__title">Редактировать профиль</h2>
+            <fieldset class="form__input-container form__add-name">
+              <label for="first-name" class="form__label"></label>
+              <input type="text" class="form__item form__name" id="first-name" name="name" placeholder="Жак-Ив Кусто">
+            </fieldset>
+            <fieldset class="form__input-container form__add-profession">
+              <label for="profession"></label>
+              <input type="text" class="form__item form__profession" id="profession" name="profession"
+                placeholder="Исследователь океана">
+            </fieldset>
+            <button name="button" class="form__button" type="button">Сохранить</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copyright page__center">&copy; 2020 Mesto Russia</p>
+    </footer>
+  </div>
+</body>
+
+</html>

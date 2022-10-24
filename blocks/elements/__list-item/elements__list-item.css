@@ -1,0 +1,11 @@
+.elements__list-item {
+  display: grid;
+  grid-template-rows: 282fr 79fr;
+  min-height: 361px;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
