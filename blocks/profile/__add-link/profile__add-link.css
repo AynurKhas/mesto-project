@@ -13,6 +13,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 22px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 690px) {

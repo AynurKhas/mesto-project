@@ -11,19 +11,19 @@
   column-gap: 30px;
 }
 
-@media screen and (max-width: 879px) {
+/* @media screen and (max-width: 879px) {
   .profile {
     padding-bottom: 36px;
   }
-}
+} */
 
 @media screen and (max-width: 690px) {
   .profile {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     gap: 26px;
     text-align: center;
+    padding-bottom: 36px;
   }
 }
