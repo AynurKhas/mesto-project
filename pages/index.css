@@ -32,15 +32,12 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
-@import url(../blocks/popap/popap.css);
-@import url(../blocks/popap/_opened/popap_opened.css);
-@import url(../blocks/popap/__close/popap__close.css);
-@import url(../blocks/popap/__conteiner/popap__conteiner.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__close/popup__close.css);
+@import url(../blocks/popup/__conteiner/popup__conteiner.css);
 
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__title/form__title.css);
 @import url(../blocks/form/__input-container/form__input-container.css);
 @import url(../blocks/form/__item/form__item.css);
-@import url(../blocks/form/__name/form__name.css);
-@import url(../blocks/form/__profession/form__profession.css);
 @import url(../blocks/form/__button/form__button.css);

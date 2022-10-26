@@ -4,11 +4,9 @@
   background-color: #000;
   box-sizing: border-box;
   padding-top: 45px;
-  margin: 0 auto;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
   min-height: 119px;
-  border-bottom: 1px solid #545454;
-  background-color: #000;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
 }
 
 @media screen and (max-width: 880px) {

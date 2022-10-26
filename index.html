@@ -7,7 +7,7 @@
   <meta name="description" content="Mesto russia">
   <meta name="keywords" content="Карачаевск, Гора Эльбрус, Домбай, Карачаево-Черкеск">
   <!-- <meta name="author" content=""> -->
-  <title>Mesto russia</title>
+  <title>Место Россия</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
 
@@ -24,10 +24,12 @@
         <img src="./images/Avatar.png" alt="аватар" class="profile__avatar">
         <div class="profile__name-conteiner">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <a class="profile__edit-link content__hover" href="#" target="_self"></a>
+          <button class="profile__edit-link content__hover" type="button" name="button"
+            aria-label="Редактирование имени"></button>
           <p class="profile__profession">Исследователь океана</p>
         </div>
-        <a class="profile__add-link content__hover" href="#" target="_self"></a>
+        <button class="profile__add-link content__hover" type="button" name="button"
+          aria-label="Редактирование профиля"></button>
       </section>
 
       <section class="elements">
@@ -77,21 +79,14 @@
         </ul>
       </section>
 
-      <section class="popap popap_opened">
-        <div class="popap__conteiner">
-          <img src="./images/Close-Icon.svg" alt="закрыть" class="popap__close">
-          <form action="#" class="form">
+      <section class="popup">
+        <div class="popup__conteiner">
+          <img src="./images/Close-Icon.svg" alt="закрыть" class="popup__close">
+          <form action="#" class="form" name="add-profile" method="get" action="#">
             <h2 class="form__title">Редактировать профиль</h2>
-            <fieldset class="form__input-container form__add-name">
-              <label for="first-name" class="form__label"></label>
-              <input type="text" class="form__item form__name" id="first-name" name="name" placeholder="Жак-Ив Кусто">
-            </fieldset>
-            <fieldset class="form__input-container form__add-profession">
-              <label for="profession"></label>
-              <input type="text" class="form__item form__profession" id="profession" name="profession"
-                placeholder="Исследователь океана">
-            </fieldset>
-            <button name="button" class="form__button" type="button">Сохранить</button>
+            <input type="text" class="form__item" id="first-name" name="name" placeholder="Жак-Ив Кусто">
+            <input type="text" class="form__item" id="profession" name="profession" placeholder="Исследователь океана">
+            <button name="button" class="form__button" type="button" aria-label="Сохранить">Сохранить</button>
           </form>
         </div>
       </section>
