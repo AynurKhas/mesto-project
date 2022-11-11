@@ -34,7 +34,7 @@
 
       <section class="elements">
         <ul class="elements__list">
-          <li class="elements__list-item">
+          <!-- <li class="elements__list-item">
             <img src="./images/Karachaevsk.jpg" alt="Карачаевск" class="elements__item-image">
             <div class="elements__item-group">
               <h2 class="elements__group-title">Карачаевск</h2>
@@ -75,18 +75,30 @@
               <h2 class="elements__group-title">Карачаево-Черкеск</h2>
               <button class="elements__button" type="button" aria-label="Нравиться"></button>
             </div>
-          </li>
+          </li> -->
         </ul>
       </section>
 
-      <section class="popup">
+      <section class="popup popup__profileAdd">
         <div class="popup__conteiner">
           <button class="popup__close" name="button" type="button"></button>
-          <form action="#" class="form" name="add-profile" method="get">
+          <form action="#" class="form form__add-profile" name="add-profile" method="get">
             <h2 class="form__title">Редактировать профиль</h2>
-            <input type="text" class="form__item" id="first-name" name="name" placeholder="Жак-Ив Кусто">
-            <input type="text" class="form__item" id="profession" name="profession" placeholder="Исследователь океана">
+            <input type="text" class="form__item form__name" id="first-name" name="name" placeholder="Жак-Ив Кусто">
+            <input type="text" class="form__item form__profession" id="profession" name="profession" placeholder="Исследователь океана">
             <button name="button" class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="popup popup__cardAdd">
+        <div class="popup__conteiner">
+          <button class="popup__close" name="button" type="button"></button>
+          <form action="#" class="form form__add-place" name="add-place" method="get">
+            <h2 class="form__title">Новое место</h2>
+            <input type="text" class="form__item form__place" id="place" name="place" placeholder="Название" required >
+            <input type="text" class="form__item form__link-place" id="link-place" name="link-place" placeholder="Ссылка на картинку" required >
+            <button name="button" class="form__button" type="submit" aria-label="Сохранить">Создать</button>
           </form>
         </div>
       </section>
@@ -97,6 +109,19 @@
       <p class="footer__copyright page__center">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
+
+  <template id="card-template">
+      <li class="elements__list-item">
+        <img src="./images/Karachaevsk.jpg" alt="Карточка" class="elements__item-image">
+        <div class="elements__item-group">
+          <h2 class="elements__group-title">Карачаевск</h2>
+          <button class="elements__button" type="button" aria-label="Нравиться"></button>
+        </div>
+        <button class="elements__trash" type="button" aria-label="Корзина"></button>
+      </li>
+  </template>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
