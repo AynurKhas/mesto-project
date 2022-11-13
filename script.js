@@ -26,7 +26,6 @@ const formLinkPlace = document.querySelector('.form__link-place');
 const formAddProfile = document.querySelector('.form_add-profile');
 
 
-// import {initialCards} from "./card"
 const initialCards = [
   {
     name: 'Архыз',
@@ -107,14 +106,14 @@ function addCard(formPlaceValue, formLinkPlaceValue) {
   elementsTrash.addEventListener('click', function () {
     elementsListItem.remove();
   });
-  elementsList.prepend(elementsListItem);
   const popupCard = document.querySelector('.popup_card');
   elementsListItem.querySelector('.elements__item-image').addEventListener('click', () => {
     open(popupCard);
     document.querySelector('.popup__card-image').src = elementsListItem.querySelector('.elements__item-image').getAttribute('src');
     document.querySelector('.popup__card-caption').textContent = elementsListItem.querySelector('.elements__group-title').textContent;
-    document.querySelector('.popup_card').style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    popupCard.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
   });
+  elementsList.prepend(elementsListItem);
 }
 
 initialCards.forEach(function (item) {
