@@ -1,4 +1,3 @@
-const popups = document.querySelectorAll('.popup');
 const closeButtons = document.querySelectorAll('.popup__close');
 const popupProfileEdit = document.querySelector('.popup_profileAdd');
 const popupCardAdd = document.querySelector('.popup_cardAdd');
@@ -33,12 +32,12 @@ btnPlaceAdd.addEventListener('click', () => {
 // ------------------------------------------- Функция закрытия
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-};
+}
 // ------------------------------------------- Кнопка закрытия попап
 closeButtons.forEach(btn => {
   const popup = btn.closest('.popup');
   btn.addEventListener('click', () => closePopup(popup));
-})
+});
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 btnSubmitAddProfile.addEventListener('submit', (evt) => {
