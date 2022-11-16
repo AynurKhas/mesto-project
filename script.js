@@ -11,9 +11,11 @@ const cardTemplate = document.querySelector('#card-template').content;
 const elementsContainer = document.querySelector('.elements__list');
 const formPlace = document.querySelector('.form__place');
 const formLinkPlace = document.querySelector('.form__link-place');
-const btnSubmitAddProfile = document.querySelector('.form_add-profile');
+const formAddProfile = document.querySelector('.form_add-profile');
 const popupCard = document.querySelector('.popup_card');
-const btnSubmitAddPlace = document.querySelector('.form_add-place');
+const formAddPlace = document.querySelector('.form_add-place');
+const imagePopupCard = document.querySelector('.popup__card-image');
+const captionPopupCard = document.querySelector('.popup__card-caption');
 
 // ------------------------------------------- Функция открытия
 function openPopup(item) {
@@ -40,7 +42,7 @@ closeButtons.forEach(btn => {
 });
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля
-btnSubmitAddProfile.addEventListener('submit', (evt) => {
+formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
   userName.textContent = formUserName.value;
   userProfession.textContent = formUserProfession.value;
@@ -68,9 +70,9 @@ function addCard(formPlaceValue, formLinkPlaceValue) {
   // ------------------------------------------- попап по нажатию на изображение
   card.querySelector('.elements__item-image').addEventListener('click', () => {
     openPopup(popupCard);
-    document.querySelector('.popup__card-image').src = formLinkPlaceValue;
-    document.querySelector('.popup__card-image').alt = formPlaceValue;
-    document.querySelector('.popup__card-caption').textContent = formPlaceValue;
+    imagePopupCard.src = formLinkPlaceValue;
+    imagePopupCard.alt = formPlaceValue;
+    captionPopupCard.textContent = formPlaceValue;
   });
 
   return card;
@@ -87,9 +89,9 @@ initialCards.forEach(function (item) {
 });
 
 // ------------------------------------------- Добавление Места по кнопке +
-btnSubmitAddPlace.addEventListener('submit', (evt) => {
+formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderCard(addCard(formPlace.value, formLinkPlace.value));
-  btnSubmitAddPlace.reset();
+  formAddPlace.reset();
   closePopup(popupCardAdd);
 });
