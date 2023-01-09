@@ -16,6 +16,7 @@ const popupCard = document.querySelector('.popup_card');
 const formAddPlace = document.querySelector('.form_add-place');
 const imagePopupCard = document.querySelector('.popup__card-image');
 const captionPopupCard = document.querySelector('.popup__card-caption');
+const popups = document.querySelectorAll('.popup');
 
 // ------------------------------------------- Функция открытия
 function openPopup(item) {
@@ -36,10 +37,23 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 // ------------------------------------------- Кнопка закрытия попап
-closeButtons.forEach(btn => {
-  const popup = btn.closest('.popup');
-  btn.addEventListener('click', () => closePopup(popup));
-});
+popups.forEach(element => {
+  element.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+      closePopup(element);
+    }
+  })
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Escape') {
+      closePopup(element);
+    }
+  })
+})
+
+// closeButtons.forEach(btn => {
+//   const popup = btn.closest('.popup');
+//   btn.addEventListener('click', () => closePopup(popup));
+// });
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 formAddProfile.addEventListener('submit', (evt) => {
