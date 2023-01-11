@@ -41,10 +41,21 @@
       <div class="popup popup_profileAdd">
         <div class="popup__conteiner">
           <button class="popup__close" name="button" type="button"></button>
-          <form action="#" class="form form_add-profile" name="add-profile" method="get">
+          <form action="#" class="form form_add-profile" name="add-profile" method="get" novalidate>
             <h2 class="form__title">Редактировать профиль</h2>
-            <input type="text" class="form__item form__name" id="first-name" name="name" placeholder="Имя">
-            <input type="text" class="form__item form__profession" id="profession" name="profession" placeholder="О себе">
+            <label class="form__label">
+              <input type="text" class="form__item form__name" id="first-name" pattern="^[а-яА-Яa-zA-ZЁё\-\s]+$"
+                data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+                minlength="2" maxlength="40" name="name" placeholder="Имя" required>
+              <span class="form__input-error first-name-error"></span>
+            </label>
+            <label class="form__label">
+              <input type="text" class="form__item form__profession" minlength="2" maxlength="200" id="profession"
+                pattern="^[а-яА-Яa-zA-ZЁё\-\s]+$"
+                data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+                name="profession" placeholder="О себе" required>
+              <span class="form__input-error profession-error"></span>
+            </label>
             <button name="button" class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
           </form>
         </div>
@@ -53,16 +64,25 @@
       <div class="popup popup_cardAdd">
         <div class="popup__conteiner">
           <button class="popup__close" name="button" type="button"></button>
-          <form action="#" class="form form_add-place" name="add-place" method="get">
+          <form action="#" class="form form_add-place" name="add-place" method="get" novalidate>
             <h2 class="form__title">Новое место</h2>
-            <input type="text" class="form__item form__place" id="place" name="place" placeholder="Название" required >
-            <input type="text" class="form__item form__link-place" id="link-place" name="link-place" placeholder="Ссылка на картинку" required >
+            <label class="form__label">
+              <input type="text" class="form__item form__place" id="place" minlength="2" maxlength="30" name="place"
+                placeholder="Название" required pattern="^[а-яА-Яa-zA-ZЁё\-\s]+$"
+                data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
+              <span class="form__input-error place-error"></span>
+            </label>
+            <label class="form__label">
+              <input type="url" class="form__item form__link-place" id="link-place" name="link-place"
+                placeholder="Ссылка на картинку" required>
+              <span class="form__input-error link-place-error"></span>
+            </label>
             <button name="button" class="form__button" type="submit" aria-label="Сохранить">Создать</button>
           </form>
         </div>
       </div>
 
-      <div  class="popup popup_card">
+      <div class="popup popup_card">
         <figure class="popup__card-conteiner">
           <button class="popup__close" name="button" type="button"></button>
           <img src="/" alt="Картинка" class="popup__card-image">
@@ -78,15 +98,16 @@
   </div>
 
   <template id="card-template">
-      <li class="elements__list-item">
-        <img src="" alt="Карточка" class="elements__item-image">
-        <div class="elements__item-group">
-          <h2 class="elements__group-title"></h2>
-          <button class="elements__button" type="button" aria-label="Нравиться"></button>
-        </div>
-        <button class="elements__trash" type="button" aria-label="Корзина"></button>
-      </li>
+    <li class="elements__list-item">
+      <img src="" alt="Карточка" class="elements__item-image">
+      <div class="elements__item-group">
+        <h2 class="elements__group-title"></h2>
+        <button class="elements__button" type="button" aria-label="Нравиться"></button>
+      </div>
+      <button class="elements__trash" type="button" aria-label="Корзина"></button>
+    </li>
   </template>
+  <script src="validation.js"></script>
   <script src="card.js"></script>
   <script src="script.js"></script>
 </body>

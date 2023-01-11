@@ -21,12 +21,14 @@ const popups = document.querySelectorAll('.popup');
 // ------------------------------------------- Функция открытия
 function openPopup(item) {
   item.classList.add('popup_opened');
+  enableValidation();
 }
 // ------------------------------------------- Кнопка Редактирование профиля
 btnProfileAdd.addEventListener('click', () => {
   openPopup(popupProfileEdit);
   formUserName.value = userName.textContent;
   formUserProfession.value = userProfession.textContent;
+  enableValidation();
 });
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
@@ -40,6 +42,7 @@ function closePopup(popup) {
 popups.forEach(element => {
   element.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+      // element.querySelector('.form').reset();
       closePopup(element);
     }
   })
@@ -60,7 +63,7 @@ formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
   userName.textContent = formUserName.value;
   userProfession.textContent = formUserProfession.value;
-  closePopup(popupProfileEdit);
+  // closePopup(popupProfileEdit);
 });
 
 // ------------------------------------------- Готова катрочка
