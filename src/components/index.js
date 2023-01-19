@@ -1,7 +1,7 @@
 import '../pages/index.css';
 import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
-import { enableValidation } from "./validate.js";
+import { enableValidation, сheckInputs } from "./validate.js";
 
 // const closeButtons = document.querySelectorAll('.popup__close');
 const popupProfileEdit = document.querySelector('.popup_profileAdd');
@@ -23,12 +23,13 @@ btnProfileAdd.addEventListener('click', () => {
   openPopup(popupProfileEdit);
   formUserName.value = userName.textContent;
   formUserProfession.value = userProfession.textContent;
+  сheckInputs(formAddProfile);
   enableValidation();
 });
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
   openPopup(popupCardAdd);
-  enableValidation();
+  // enableValidation();
 });
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля
@@ -36,7 +37,7 @@ formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
   userName.textContent = formUserName.value;
   userProfession.textContent = formUserProfession.value;
-  // closePopup(popupProfileEdit);
+  closePopup(popupProfileEdit);
 });
 
 // ------------------------------------------- Добавление Места по кнопке +

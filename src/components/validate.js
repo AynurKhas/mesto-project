@@ -66,7 +66,14 @@ export const enableValidation = () => {
   });
 };
 
-
+export const сheckInputs = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.form__item'));
+  inputList.forEach(inputElement => {
+    checkInputValidity(formElement, inputElement);
+    hideInputError(formElement, inputElement);
+    // toggleButtonState(inputList, buttonElement, parameter);
+  })
+}
 
 
 // enableValidation();
