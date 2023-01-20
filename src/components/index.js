@@ -32,12 +32,10 @@ btnProfileAdd.addEventListener('click', () => {
   formUserName.value = userName.textContent;
   formUserProfession.value = userProfession.textContent;
   сheckInputs(formAddProfile, validationObject);
-  enableValidation(validationObject);
 });
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
   openPopup(popupCardAdd);
-  enableValidation(validationObject);
 });
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля
@@ -57,6 +55,8 @@ formAddPlace.addEventListener('submit', (evt) => {
 });
 
 initialCards();
+
+enableValidation(validationObject);
 
 // closeButtons.forEach(btn => {
 //   const popup = btn.closest('.popup');

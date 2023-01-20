@@ -37,8 +37,10 @@ const hasInvalidInput = (inputList) => {
 
 const toggleButtonState = (inputList, buttonElement, object) => {
   if (hasInvalidInput(inputList)) {
+    buttonElement.disabled = true;
     buttonElement.classList.add(object.inactiveButtonClass);
   } else {
+    buttonElement.disabled = false;
     buttonElement.classList.remove(object.inactiveButtonClass);
   }
 };
@@ -69,11 +71,11 @@ export const enableValidation = (object) => {
 
 export const сheckInputs = (formElement, object) => {
   const inputList = Array.from(formElement.querySelectorAll(object.inputSelector));
-  // const buttonElement = formElement.querySelector('.form__button');
+  const buttonElement = formElement.querySelector('.form__button');
   inputList.forEach(inputElement => {
     checkInputValidity(formElement, inputElement, object);
     hideInputError(formElement, inputElement, object);
-    // toggleButtonState(inputList, buttonElement);
+    toggleButtonState(inputList, buttonElement, object);
   })
 }
 
