@@ -36,6 +36,7 @@ btnProfileAdd.addEventListener('click', () => {
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
   openPopup(popupCardAdd);
+  сheckInputs(formAddPlace, validationObject);
 });
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля

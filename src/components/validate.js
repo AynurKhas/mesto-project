@@ -73,9 +73,16 @@ export const сheckInputs = (formElement, object) => {
   const inputList = Array.from(formElement.querySelectorAll(object.inputSelector));
   const buttonElement = formElement.querySelector('.form__button');
   inputList.forEach(inputElement => {
-    checkInputValidity(formElement, inputElement, object);
-    hideInputError(formElement, inputElement, object);
+    const meaning = inputElement.value === "";
+    if (!meaning) {
+      hideInputError(formElement, inputElement, object);
+      checkInputValidity(formElement, inputElement, object);
+    } else {
+      checkInputValidity(formElement, inputElement, object);
+      hideInputError(formElement, inputElement, object);
+    }
     toggleButtonState(inputList, buttonElement, object);
+    // console.log(inputElement.value);
   })
 }
 
