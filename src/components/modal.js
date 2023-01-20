@@ -11,7 +11,7 @@ export function closePopup() {
   const popupOpen = document.querySelector('.popup_opened');
   popupOpen.classList.remove('popup_opened');
   document.removeEventListener('keydown', keydownEsc);
-  popupOpen.removeEventListener('keydown', closeOnClick);
+  popupOpen.removeEventListener('click', closeOnClick);
 }
 
 // ------------------------------------------- Оверлей и кнопка закрытия попап по клику
