@@ -5,7 +5,7 @@ line-height: 15px;
 color: #FF0000;
 
 position: absolute;
-top: calc(100% + 5px);
+top: calc(100% + 1px);
 left: 0;
 transition: 0.3s;
 opacity: 0;
