@@ -29,10 +29,11 @@ const cards = [
 const popupCard = document.querySelector('.popup_card');
 const captionPopupCard = document.querySelector('.popup__card-caption');
 const elementsContainer = document.querySelector('.elements__list');
+const cardTemplate = document.querySelector('#card-template').content;
+const imagePopupCard = document.querySelector('.popup__card-image');
 
 // ------------------------------------------- Готовая катрочка
 export function addCard(formPlaceValue, formLinkPlaceValue) {
-  const cardTemplate = document.querySelector('#card-template').content;
   const card = cardTemplate.querySelector('.elements__list-item').cloneNode(true);
   const cardImage = card.querySelector('.elements__item-image');
   const cardTitle = card.querySelector('.elements__group-title');
@@ -52,7 +53,6 @@ export function addCard(formPlaceValue, formLinkPlaceValue) {
   // ------------------------------------------- попап по нажатию на изображение
   card.querySelector('.elements__item-image').addEventListener('click', () => {
     openPopup(popupCard);
-    const imagePopupCard = document.querySelector('.popup__card-image');
     imagePopupCard.src = formLinkPlaceValue;
     imagePopupCard.alt = formPlaceValue;
     captionPopupCard.textContent = formPlaceValue;
