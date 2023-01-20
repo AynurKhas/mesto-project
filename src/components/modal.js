@@ -1,29 +1,29 @@
-import { enableValidation } from "./validate.js";
 
-
-const popups = document.querySelectorAll('.popup');
 // ------------------------------------------- Функция открытия
 export function openPopup(item) {
   item.classList.add('popup_opened');
-  enableValidation();
+  document.addEventListener('keydown', keydownEsc);
+  item.addEventListener('click', closeOnClick);
 }
 
 // ------------------------------------------- Функция закрытия
-export function closePopup(popup) {
-  popup.classList.remove('popup_opened');
+export function closePopup() {
+  const popupOpen = document.querySelector('.popup_opened');
+  popupOpen.classList.remove('popup_opened');
+  document.removeEventListener('keydown', keydownEsc);
+  popupOpen.removeEventListener('keydown', closeOnClick);
 }
 
-// ------------------------------------------- Кнопка закрытия попап
-popups.forEach(element => {
-  element.addEventListener('click', function (evt) {
-    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
-      // element.querySelector('.form').reset();
-      closePopup(element);
-    }
-  })
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Escape') {
-      closePopup(element);
-    }
-  })
-})
+// ------------------------------------------- Оверлей и кнопка закрытия попап по клику
+function closeOnClick(evt) {
+  if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+    closePopup();
+  }
+}
+
+// ----------функция закрытия при нажатии esc
+function keydownEsc(evt) {
+  if (evt.key === 'Escape') {
+    closePopup();
+  }
+}

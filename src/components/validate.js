@@ -1,18 +1,21 @@
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, object) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('form__item_type_error');
+  inputElement.classList.add(object.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add('form__input-error_active');
+  errorElement.classList.add(object.errorClass);
+
+  increaseOutputSize(formElement, errorElement, object);
 };
 
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, object) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('form__item_type_error');
-  errorElement.classList.remove('form__input-error_active');
+  inputElement.classList.remove(object.inputErrorClass);
+  errorElement.classList.remove(object.errorClass);
   errorElement.textContent = '';
+  increaseOutputSize(formElement, errorElement, object);
 };
 
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, object) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage)
   } else {
@@ -20,53 +23,68 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, object);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, object);
   }
 };
 
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
-    });
-  };
+  });
+};
 
-const toggleButtonState = (inputList, buttonElement) => {
-  if(hasInvalidInput(inputList)) {
-    buttonElement.classList.add('form__button_inactive');
+const toggleButtonState = (inputList, buttonElement, object) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(object.inactiveButtonClass);
   } else {
-    buttonElement.classList.remove('form__button_inactive');
+    buttonElement.classList.remove(object.inactiveButtonClass);
   }
 };
 
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.form__item'));
-  const buttonElement = formElement.querySelector('.form__button');
-
+const setEventListeners = (formElement, object) => {
+  const inputList = Array.from(formElement.querySelectorAll(object.inputSelector));
+  const buttonElement = formElement.querySelector(object.submitButtonSelector);
   // чтобы проверить состояние кнопки в самом начале
-  toggleButtonState(inputList, buttonElement);
-
+  toggleButtonState(inputList, buttonElement, object);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
+      checkInputValidity(formElement, inputElement, object);
       // чтобы проверять его при изменении любого из полей
-      toggleButtonState(inputList, buttonElement);
+      toggleButtonState(inputList, buttonElement, object);
     });
   });
 };
 
-export const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.form'));
+export const enableValidation = (object) => {
+  const formList = Array.from(document.querySelectorAll(object.formSelector));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
-    setEventListeners(formElement);
+    setEventListeners(formElement, object);
   });
 };
 
+export const сheckInputs = (formElement, object) => {
+  const inputList = Array.from(formElement.querySelectorAll(object.inputSelector));
+  // const buttonElement = formElement.querySelector('.form__button');
+  inputList.forEach(inputElement => {
+    checkInputValidity(formElement, inputElement, object);
+    hideInputError(formElement, inputElement, object);
+    // toggleButtonState(inputList, buttonElement);
+  })
+}
 
-
-
-// enableValidation();
+// функция увеличения высоты для ошибки
+const increaseOutputSize = (formElement, errorElement, object) => {
+  const inputList = Array.from(formElement.querySelectorAll(object.inputSelector));
+  inputList.forEach(inputElement => {
+    if (errorElement.offsetHeight > 30) {
+      inputElement.style.marginBottom = `${errorElement.offsetHeight}px`;
+    } else {
+      inputElement.removeAttribute("style");
+    }
+  })
+}

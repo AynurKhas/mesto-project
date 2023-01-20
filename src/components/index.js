@@ -1,9 +1,8 @@
 import '../pages/index.css';
 import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
-import { enableValidation } from "./validate.js";
+import { enableValidation, сheckInputs } from "./validate.js";
 
-// const closeButtons = document.querySelectorAll('.popup__close');
 const popupProfileEdit = document.querySelector('.popup_profileAdd');
 const popupCardAdd = document.querySelector('.popup_cardAdd');
 const btnProfileAdd = document.querySelector('.profile__edit-link');
@@ -18,17 +17,27 @@ const formAddProfile = document.querySelector('.form_add-profile');
 const formAddPlace = document.querySelector('.form_add-place');
 
 
+const validationObject = {
+  formSelector: '.form',
+  inputSelector: '.form__item',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'form__button_inactive',
+  inputErrorClass: 'form__item_type_error',
+  errorClass: 'form__input-error_active'
+};
+
 // ------------------------------------------- Кнопка Редактирование профиля
 btnProfileAdd.addEventListener('click', () => {
   openPopup(popupProfileEdit);
   formUserName.value = userName.textContent;
   formUserProfession.value = userProfession.textContent;
-  enableValidation();
+  сheckInputs(formAddProfile, validationObject);
+  enableValidation(validationObject);
 });
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
   openPopup(popupCardAdd);
-  enableValidation();
+  enableValidation(validationObject);
 });
 
 // ------------------------------------------- Кнопка сохранить редактирования профиля
@@ -36,7 +45,7 @@ formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
   userName.textContent = formUserName.value;
   userProfession.textContent = formUserProfession.value;
-  // closePopup(popupProfileEdit);
+  closePopup();
 });
 
 // ------------------------------------------- Добавление Места по кнопке +
@@ -44,7 +53,7 @@ formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderCard(addCard(formPlace.value, formLinkPlace.value));
   formAddPlace.reset();
-  closePopup(popupCardAdd);
+  closePopup();
 });
 
 initialCards();
