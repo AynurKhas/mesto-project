@@ -66,8 +66,15 @@ export function renderCard(index) {
   elementsContainer.prepend(index);
 }
 // ------------------------------------------- Добавления карточек из файла card.js
-export function initialCards() {
-  cards.forEach(function (item) {
+// export function initialCards() {
+//   cards.forEach(function (item) {
+//     renderCard(addCard(item.name, item.link));
+//   });
+// }
+
+// ------------------------------------------- Добавления карточек из файла сервера
+export function initialCards(object) {
+  object.forEach(function (item) {
     renderCard(addCard(item.name, item.link));
   });
 }

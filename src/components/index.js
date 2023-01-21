@@ -2,6 +2,7 @@ import '../pages/index.css';
 import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
+import { initProfile, getInitialCards } from "./api.js"
 
 const popupProfileEdit = document.querySelector('.popup_profileAdd');
 const popupCardAdd = document.querySelector('.popup_cardAdd');
@@ -15,6 +16,7 @@ const formPlace = document.querySelector('.form__place');
 const formLinkPlace = document.querySelector('.form__link-place');
 const formAddProfile = document.querySelector('.form_add-profile');
 const formAddPlace = document.querySelector('.form_add-place');
+const profileAvatar = document.querySelector('.profile__avatar');
 
 
 const validationObject = {
@@ -55,7 +57,6 @@ formAddPlace.addEventListener('submit', (evt) => {
   closePopup();
 });
 
-initialCards();
 
 enableValidation(validationObject);
 
@@ -63,3 +64,21 @@ enableValidation(validationObject);
 //   const popup = btn.closest('.popup');
 //   btn.addEventListener('click', () => closePopup(popup));
 // });
+
+initProfile()
+  .then((result) => {
+    userName.textContent = result.name;
+    userProfession.textContent = result.about;
+    profileAvatar.src = result.avatar
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+getInitialCards()
+  .then((result) => {
+    initialCards(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
