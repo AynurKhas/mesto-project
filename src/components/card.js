@@ -1,5 +1,5 @@
 import { openPopup } from "./modal.js";
-const cards = [
+/*const cards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -24,7 +24,7 @@ const cards = [
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
-];
+];*/
 
 const popupCard = document.querySelector('.popup_card');
 const captionPopupCard = document.querySelector('.popup__card-caption');
@@ -66,11 +66,11 @@ export function renderCard(index) {
   elementsContainer.prepend(index);
 }
 // ------------------------------------------- Добавления карточек из файла card.js
-// export function initialCards() {
-//   cards.forEach(function (item) {
-//     renderCard(addCard(item.name, item.link));
-//   });
-// }
+/*export function initialCards() {
+  cards.forEach(function (item) {
+    renderCard(addCard(item.name, item.link));
+  });
+}*/
 
 // ------------------------------------------- Добавления карточек из файла сервера
 export function initialCards(object) {

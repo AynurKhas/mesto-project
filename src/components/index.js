@@ -2,7 +2,7 @@ import '../pages/index.css';
 import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
-import { initProfile, getInitialCards } from "./api.js"
+import { initProfile, getInitialCards, profileEditing, addCardtToServer } from "./api.js"
 
 const popupProfileEdit = document.querySelector('.popup_profileAdd');
 const popupCardAdd = document.querySelector('.popup_cardAdd');
@@ -44,15 +44,27 @@ btnPlaceAdd.addEventListener('click', () => {
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  userName.textContent = formUserName.value;
-  userProfession.textContent = formUserProfession.value;
+  profileEditing(formUserName.value, formUserProfession.value)
+    .then((result) => {
+      userName.textContent = result.name;
+      userProfession.textContent = result.about;
+    })
+    .catch((err) => {
+    console.log(err);
+  })
   closePopup();
 });
 
 // ------------------------------------------- Добавление Места по кнопке +
 formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  renderCard(addCard(formPlace.value, formLinkPlace.value));
+  addCardtToServer(formPlace.value, formLinkPlace.value)
+  .then((result) => {
+    renderCard(addCard(result.name, result.link));
+  })
+  .catch((err) => {
+    console.log((err));
+  });
   formAddPlace.reset();
   closePopup();
 });
@@ -82,3 +94,5 @@ getInitialCards()
   .catch((err) => {
     console.log(err);
   });
+
+
