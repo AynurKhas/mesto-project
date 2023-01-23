@@ -60,7 +60,7 @@ formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   addCardtToServer(formPlace.value, formLinkPlace.value)
   .then((result) => {
-    renderCard(addCard(result.name, result.link));
+    renderCard(addCard(result));
   })
   .catch((err) => {
     console.log((err));
@@ -77,6 +77,7 @@ enableValidation(validationObject);
 //   btn.addEventListener('click', () => closePopup(popup));
 // });
 
+// загрузка данных профиля с сервера
 initProfile()
   .then((result) => {
     userName.textContent = result.name;
@@ -87,9 +88,11 @@ initProfile()
     console.log(err);
   });
 
+//добавление карточек с сервера
 getInitialCards()
   .then((result) => {
     initialCards(result);
+    // console.log(result);
   })
   .catch((err) => {
     console.log(err);

@@ -6,12 +6,13 @@ const config = {
   }
 }
 
-const gettingPromise = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
+// const gettingPromise = (res) => {
+//   if (res.ok) {
+//     return res.json();
+//   }
+//   return Promise.reject(`Ошибка: ${res.status}`);
+// }
+
 // запрос Профиля
 export const initProfile = () => {
   return fetch(`${config.baseUrl}/users/me`, {
@@ -72,4 +73,31 @@ export const addCardtToServer = (name, link) => {
       }
       return Promise.reject(`Ошибка: ${res.status}`);
     });
+}
+
+//добавление лайка
+export const addLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
+}
+//удаление лайка
+export const deleteLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
 }

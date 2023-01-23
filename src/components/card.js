@@ -1,4 +1,6 @@
 import { openPopup } from "./modal.js";
+import { checkWhoOwns, checkMyLikes } from "./utils";
+import { addLike, deleteLike } from "./api";
 /*const cards = [
   {
     name: 'Архыз',
@@ -33,20 +35,48 @@ const cardTemplate = document.querySelector('#card-template').content;
 const imagePopupCard = document.querySelector('.popup__card-image');
 
 // ------------------------------------------- Готовая катрочка
-export function addCard(formPlaceValue, formLinkPlaceValue) {
+export function addCard(object) {
   const card = cardTemplate.querySelector('.elements__list-item').cloneNode(true);
   const cardImage = card.querySelector('.elements__item-image');
   const cardTitle = card.querySelector('.elements__group-title');
-  cardTitle.textContent = formPlaceValue;
-  cardImage.setAttribute('src', formLinkPlaceValue);
-  cardImage.setAttribute('alt', formPlaceValue);
+  const cardLikeCounter = card.querySelector('.elements__like-counter')
+  cardTitle.textContent = object.name;
+  cardImage.setAttribute('src', object.link);
+  cardImage.setAttribute('alt', object.name);
+  cardLikeCounter.textContent = object.likes.length;
   // ------------------------------------------- кнопка Нравиться
   const btnlike = card.querySelector('.elements__button');
+//проверка наличия отмеченного мною лайка
+    if (checkMyLikes(object.likes)) {
+      btnlike.classList.add('elements__button_active');
+    }
+
   btnlike.addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__button_active');
+    if (evt.target.classList.contains('elements__button_active')) {
+      addLike(object._id)
+        .then((result) => {
+          cardLikeCounter.textContent = result.likes.length;
+        })
+        .catch((err) => {
+          console.log((err));
+        });
+    } else {
+      deleteLike(object._id)
+        .then((result) => {
+          cardLikeCounter.textContent = result.likes.length
+        })
+        .catch((err) => {
+          console.log((err));
+        });
+    }
   });
   // ------------------------------------------- кнопка удалить
   const elementsTrash = card.querySelector('.elements__trash');
+  if (!checkWhoOwns(object.owner._id)) {
+    elementsTrash.classList.add('elements__trash_disabled');
+    elementsTrash.setAttribute("disabled", true);
+  }
   elementsTrash.addEventListener('click', function () {
     card.remove();
   });
@@ -75,6 +105,6 @@ export function renderCard(index) {
 // ------------------------------------------- Добавления карточек из файла сервера
 export function initialCards(object) {
   object.forEach(function (item) {
-    renderCard(addCard(item.name, item.link));
+    renderCard(addCard(item));
   });
 }
