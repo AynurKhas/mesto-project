@@ -17,6 +17,9 @@ const formLinkPlace = document.querySelector('.form__link-place');
 const formAddProfile = document.querySelector('.form_add-profile');
 const formAddPlace = document.querySelector('.form_add-place');
 const profileAvatar = document.querySelector('.profile__avatar');
+const avatarEdit = document.querySelector('.profile__link-avatar');
+const popupAvatarEdit = document.querySelector('.popup__avatarEdit');
+const formAvatarEdit = document.querySelector('.form_avatarEdit');
 
 
 const validationObject = {
@@ -27,6 +30,12 @@ const validationObject = {
   inputErrorClass: 'form__item_type_error',
   errorClass: 'form__input-error_active'
 };
+
+//--------------------------------------------нажатие на аватар
+avatarEdit.addEventListener('click', () => {
+  openPopup(popupAvatarEdit);
+  сheckInputs(formAvatarEdit, validationObject);
+})
 
 // ------------------------------------------- Кнопка Редактирование профиля
 btnProfileAdd.addEventListener('click', () => {
