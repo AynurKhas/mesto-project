@@ -83,9 +83,9 @@ export function addCard(object) {
   // ------------------------------------------- попап по нажатию на изображение
   card.querySelector('.elements__item-image').addEventListener('click', () => {
     openPopup(popupCard);
-    imagePopupCard.src = formLinkPlaceValue;
-    imagePopupCard.alt = formPlaceValue;
-    captionPopupCard.textContent = formPlaceValue;
+    imagePopupCard.src = object.link;
+    imagePopupCard.alt = object.name;
+    captionPopupCard.textContent = object.name;
   });
 
   return card;
