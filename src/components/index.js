@@ -2,6 +2,8 @@ import '../pages/index.css';
 import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
+import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer } from "./api.js"
+import { renderLoading } from "./utils";
 
 const popupProfileEdit = document.querySelector('.popup_profileAdd');
 const popupCardAdd = document.querySelector('.popup_cardAdd');
@@ -15,6 +17,11 @@ const formPlace = document.querySelector('.form__place');
 const formLinkPlace = document.querySelector('.form__link-place');
 const formAddProfile = document.querySelector('.form_add-profile');
 const formAddPlace = document.querySelector('.form_add-place');
+const profileAvatar = document.querySelector('.profile__avatar');
+const avatarEdit = document.querySelector('.profile__link-avatar');
+const popupAvatarEdit = document.querySelector('.popup_avatarEdit');
+const formAvatarEdit = document.querySelector('.form_avatarEdit');
+const formAvatarEditInput = document.querySelector('.form__avatarEdit-input');
 
 
 const validationObject = {
@@ -26,6 +33,30 @@ const validationObject = {
   errorClass: 'form__input-error_active'
 };
 
+//--------------------------------------------нажатие на аватар
+avatarEdit.addEventListener('click', () => {
+  openPopup(popupAvatarEdit);
+  сheckInputs(formAvatarEdit, validationObject);
+})
+
+//--------------------------------------------сохранение нового аватара профиля
+formAvatarEdit.addEventListener('submit', (evt) => {
+  renderLoading(formAvatarEdit, true);
+  evt.preventDefault();
+  editAvatarFromServer(formAvatarEditInput.value)
+    .then((result) => {
+      console.log(result);
+      profileAvatar.src = result.avatar;
+    })
+    .catch((err) => {
+    console.log(err);
+    })
+    .finally(() => {
+      renderLoading(formAvatarEdit, false);
+  })
+  closePopup();
+})
+
 // ------------------------------------------- Кнопка Редактирование профиля
 btnProfileAdd.addEventListener('click', () => {
   openPopup(popupProfileEdit);
@@ -33,6 +64,7 @@ btnProfileAdd.addEventListener('click', () => {
   formUserProfession.value = userProfession.textContent;
   сheckInputs(formAddProfile, validationObject);
 });
+
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
   openPopup(popupCardAdd);
@@ -42,20 +74,39 @@ btnPlaceAdd.addEventListener('click', () => {
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  userName.textContent = formUserName.value;
-  userProfession.textContent = formUserProfession.value;
+  renderLoading(formAddProfile, true);
+  profileEditing(formUserName.value, formUserProfession.value)
+    .then((result) => {
+      userName.textContent = result.name;
+      userProfession.textContent = result.about;
+    })
+    .catch((err) => {
+    console.log(err);
+    })
+    .finally(() => {
+    renderLoading(formAddProfile, false);
+  })
   closePopup();
 });
 
 // ------------------------------------------- Добавление Места по кнопке +
 formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  renderCard(addCard(formPlace.value, formLinkPlace.value));
+  renderLoading(formAddPlace, true);
+  addCardtToServer(formPlace.value, formLinkPlace.value)
+  .then((result) => {
+    renderCard(addCard(result));
+  })
+  .catch((err) => {
+    console.log((err));
+  })
+  .finally(() => {
+  renderLoading(formAddPlace, false);
+})
   formAddPlace.reset();
   closePopup();
 });
 
-initialCards();
 
 enableValidation(validationObject);
 
@@ -63,3 +114,26 @@ enableValidation(validationObject);
 //   const popup = btn.closest('.popup');
 //   btn.addEventListener('click', () => closePopup(popup));
 // });
+
+// загрузка данных профиля с сервера
+initProfile()
+  .then((result) => {
+    userName.textContent = result.name;
+    userProfession.textContent = result.about;
+    profileAvatar.src = result.avatar
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+//добавление карточек с сервера
+getInitialCards()
+  .then((result) => {
+    initialCards(result);
+    // console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+

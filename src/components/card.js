@@ -1,5 +1,7 @@
 import { openPopup } from "./modal.js";
-const cards = [
+import { checkWhoOwns, checkMyLikes } from "./utils";
+import { addLike, deleteLike } from "./api";
+/*const cards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -24,7 +26,7 @@ const cards = [
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
-];
+];*/
 
 const popupCard = document.querySelector('.popup_card');
 const captionPopupCard = document.querySelector('.popup__card-caption');
@@ -33,29 +35,57 @@ const cardTemplate = document.querySelector('#card-template').content;
 const imagePopupCard = document.querySelector('.popup__card-image');
 
 // ------------------------------------------- Готовая катрочка
-export function addCard(formPlaceValue, formLinkPlaceValue) {
+export function addCard(object) {
   const card = cardTemplate.querySelector('.elements__list-item').cloneNode(true);
   const cardImage = card.querySelector('.elements__item-image');
   const cardTitle = card.querySelector('.elements__group-title');
-  cardTitle.textContent = formPlaceValue;
-  cardImage.setAttribute('src', formLinkPlaceValue);
-  cardImage.setAttribute('alt', formPlaceValue);
+  const cardLikeCounter = card.querySelector('.elements__like-counter')
+  cardTitle.textContent = object.name;
+  cardImage.setAttribute('src', object.link);
+  cardImage.setAttribute('alt', object.name);
+  cardLikeCounter.textContent = object.likes.length;
   // ------------------------------------------- кнопка Нравиться
   const btnlike = card.querySelector('.elements__button');
+//проверка наличия отмеченного мною лайка
+    if (checkMyLikes(object.likes)) {
+      btnlike.classList.add('elements__button_active');
+    }
+
   btnlike.addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__button_active');
+    if (evt.target.classList.contains('elements__button_active')) {
+      addLike(object._id)
+        .then((result) => {
+          cardLikeCounter.textContent = result.likes.length;
+        })
+        .catch((err) => {
+          console.log((err));
+        });
+    } else {
+      deleteLike(object._id)
+        .then((result) => {
+          cardLikeCounter.textContent = result.likes.length
+        })
+        .catch((err) => {
+          console.log((err));
+        });
+    }
   });
   // ------------------------------------------- кнопка удалить
   const elementsTrash = card.querySelector('.elements__trash');
+  if (!checkWhoOwns(object.owner._id)) {
+    elementsTrash.classList.add('elements__trash_disabled');
+    elementsTrash.setAttribute("disabled", true);
+  }
   elementsTrash.addEventListener('click', function () {
     card.remove();
   });
   // ------------------------------------------- попап по нажатию на изображение
   card.querySelector('.elements__item-image').addEventListener('click', () => {
     openPopup(popupCard);
-    imagePopupCard.src = formLinkPlaceValue;
-    imagePopupCard.alt = formPlaceValue;
-    captionPopupCard.textContent = formPlaceValue;
+    imagePopupCard.src = object.link;
+    imagePopupCard.alt = object.name;
+    captionPopupCard.textContent = object.name;
   });
 
   return card;
@@ -66,8 +96,15 @@ export function renderCard(index) {
   elementsContainer.prepend(index);
 }
 // ------------------------------------------- Добавления карточек из файла card.js
-export function initialCards() {
+/*export function initialCards() {
   cards.forEach(function (item) {
     renderCard(addCard(item.name, item.link));
+  });
+}*/
+
+// ------------------------------------------- Добавления карточек из файла сервера
+export function initialCards(object) {
+  object.forEach(function (item) {
+    renderCard(addCard(item));
   });
 }
