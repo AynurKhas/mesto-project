@@ -42,7 +42,7 @@ avatarEdit.addEventListener('click', () => {
 //--------------------------------------------сохранение нового аватара профиля
 formAvatarEdit.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  renderLoading(formAvatarEdit, true);
+  renderLoading(formAvatarEdit.elements.profileAdd, true);
   editAvatarFromServer(formAvatarEditInput.value)
     .then((result) => {
       console.log(result);
@@ -52,7 +52,7 @@ formAvatarEdit.addEventListener('submit', (evt) => {
     console.log(err);
     })
     .finally(() => {
-      renderLoading(formAvatarEdit, false);
+      renderLoading(formAvatarEdit.elements.profileAdd, false);
   })
   closePopup();
 })
@@ -74,7 +74,8 @@ btnPlaceAdd.addEventListener('click', () => {
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 formAddProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  renderLoading(formAddProfile, true);
+  console.log(formAddProfile.elements);
+  renderLoading(formAddProfile.elements.profileAdd, true);
   profileEditing(formUserName.value, formUserProfession.value)
     .then((result) => {
       userName.textContent = result.name;
@@ -84,7 +85,7 @@ formAddProfile.addEventListener('submit', (evt) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(formAddProfile, false);
+      renderLoading(formAddProfile.elements.profileAdd, false);
     });
   closePopup();
 });
@@ -92,7 +93,7 @@ formAddProfile.addEventListener('submit', (evt) => {
 // ------------------------------------------- Добавление Места по кнопке +
 formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  renderLoading(formAddPlace, true);
+  renderLoading(evt.target, true);
   addCardtToServer(formPlace.value, formLinkPlace.value)
     .then((result) => {
       renderCardToEnd(addCard(result));
@@ -101,7 +102,7 @@ formAddPlace.addEventListener('submit', (evt) => {
       console.log((err));
     })
     .finally(() => {
-      renderLoading(formAddPlace, false);
+      renderLoading(evt.target, false);
     });
   formAddPlace.reset();
   closePopup();
