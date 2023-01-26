@@ -112,13 +112,13 @@ export const editAvatarFromServer = (avatar) => {
   })
 }
 
-//удаление лайка
+//удаление карты
 export const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-  .then(res => {
+    .then(res => {
     if (res.ok) {
       return res.json()
     }
