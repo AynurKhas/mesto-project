@@ -6,13 +6,6 @@ const config = {
   }
 }
 
-// const gettingPromise = (res) => {
-//   if (res.ok) {
-//     return res.json();
-//   }
-//   return Promise.reject(`Ошибка: ${res.status}`);
-// }
-
 // запрос Профиля
 export const initProfile = () => {
   return fetch(`${config.baseUrl}/users/me`, {
@@ -116,5 +109,19 @@ export const editAvatarFromServer = (avatar) => {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`)
+  })
+}
+
+//удаление лайка
+export const deleteCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
 }

@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { initialCards, addCard, renderCard } from "./card.js";
+import { initialCards, addCard, renderCardToEnd } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
 import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer } from "./api.js"
@@ -41,8 +41,8 @@ avatarEdit.addEventListener('click', () => {
 
 //--------------------------------------------сохранение нового аватара профиля
 formAvatarEdit.addEventListener('submit', (evt) => {
-  renderLoading(formAvatarEdit, true);
   evt.preventDefault();
+  renderLoading(formAvatarEdit, true);
   editAvatarFromServer(formAvatarEditInput.value)
     .then((result) => {
       console.log(result);
@@ -81,11 +81,11 @@ formAddProfile.addEventListener('submit', (evt) => {
       userProfession.textContent = result.about;
     })
     .catch((err) => {
-    console.log(err);
+      console.log(err);
     })
     .finally(() => {
-    renderLoading(formAddProfile, false);
-  })
+      renderLoading(formAddProfile, false);
+    });
   closePopup();
 });
 
@@ -94,15 +94,15 @@ formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderLoading(formAddPlace, true);
   addCardtToServer(formPlace.value, formLinkPlace.value)
-  .then((result) => {
-    renderCard(addCard(result));
-  })
-  .catch((err) => {
-    console.log((err));
-  })
-  .finally(() => {
-  renderLoading(formAddPlace, false);
-})
+    .then((result) => {
+      renderCardToEnd(addCard(result));
+    })
+    .catch((err) => {
+      console.log((err));
+    })
+    .finally(() => {
+      renderLoading(formAddPlace, false);
+    });
   formAddPlace.reset();
   closePopup();
 });
@@ -130,7 +130,6 @@ initProfile()
 getInitialCards()
   .then((result) => {
     initialCards(result);
-    // console.log(result);
   })
   .catch((err) => {
     console.log(err);
