@@ -1,0 +1,45 @@
+.profile__link-avatar {
+  text-decoration: none;
+  display: block;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile__link-avatar::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+.profile__link-avatar::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  background-image: url("../../../images/Vector-pencil.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 26px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+.profile__link-avatar:hover::after {
+  opacity: 1;
+}
+
+.profile__link-avatar:hover::before {
+  opacity: 0.6;
+}
