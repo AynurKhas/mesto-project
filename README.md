@@ -12,4 +12,4 @@
 
 Visual studio code или друой редактор кода, наличие современного браузера.
 
-Ссылка на сайт: (https://aynurkhas.github.io/mesto-project)
+Ссылка на сайт: (https://aynurkhas.github.io/mesto-project/index.html)
