@@ -15,11 +15,11 @@ export const checkMyLikes = (object) => {
 }
 
 //показать сообщение пока ждем ответ от сервера
-export const renderLoading = (button, status) => {
+export const renderLoading = (form, status) => {
   if (status) {
-    button.textContent = "Сохранение..."
+    form.elements.button.textContent = "Сохранение..."
   }
   else {
-    button.textContent = "Сохранить"
+    form.elements.button.textContent = "Сохранить"
   }
 }
