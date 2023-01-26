@@ -9,6 +9,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 const imagePopupCard = document.querySelector('.popup__card-image');
 const popupDelete = document.querySelector('.popup_delete');
 const formDelete = document.querySelector('.form_delete');
+// const cards = document.querySelectorAll('.elements__list-item');
 
 // ------------------------------------------- Создание карточки
 export function addCard(object) {
@@ -56,20 +57,20 @@ export function addCard(object) {
   }
 
   elementsTrash.addEventListener('click', function () {
-    const deleteCardId = object._id;
     openPopup(popupDelete);
-
     //-------------------------------------------удаление карточки по кнопке ДА
     formDelete.addEventListener('submit', (evt) => {
       evt.preventDefault();
+      const deleteCardId = object._id;
+
       deleteCard(deleteCardId)
         .then((result) => {
+          card.remove();
+          closePopup();
         })
         .catch((err) => {
           console.log((err));
         });
-        card.remove();
-        closePopup();
     });
   })
   // ------------------------------------------- попап по нажатию на изображение
