@@ -6,17 +6,20 @@ const config = {
   }
 }
 
+//ответ от сервера
+const response = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 // запрос Профиля
 export const initProfile = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(response);
 }
 
 // запрос карт
@@ -24,12 +27,7 @@ export const getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(response);
 }
 
 // отправка отредактированного профиля
@@ -42,12 +40,7 @@ export const profileEditing = (name, about) => {
       about: `${about}`
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(response);
 }
 
 // запрос на добавление карточки
@@ -60,12 +53,7 @@ export const addCardtToServer = (name, link) => {
       link: link
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(response);
 }
 
 //добавление лайка
@@ -74,12 +62,7 @@ export const addLike = (cardId) => {
     method: 'PUT',
     headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+    .then(response);
 }
 //удаление лайка
 export const deleteLike = (cardId) => {
@@ -87,12 +70,7 @@ export const deleteLike = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+    .then(response);
 }
 
 //редактирование аватара
@@ -104,12 +82,7 @@ export const editAvatarFromServer = (avatar) => {
       avatar: avatar
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`)
-  })
+    .then(response);
 }
 
 //удаление карты
@@ -118,10 +91,5 @@ export const deleteCard = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+    .then(response);
 }
