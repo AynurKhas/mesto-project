@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { initialCards, addCard, renderCardToEnd } from "./card.js";
+import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup, closePopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
 import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer } from "./api.js"
@@ -33,6 +33,28 @@ const validationObject = {
   errorClass: 'form__input-error_active'
 };
 
+//--------------------------------------инициализация страницы
+function initializePage() {
+  // загрузка данных профиля с сервера
+  initProfile()
+    .then((result) => {
+      userName.textContent = result.name;
+      userProfession.textContent = result.about;
+      profileAvatar.src = result.avatar
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  //добавление карточек с сервера
+  getInitialCards()
+    .then((result) => {
+      initialCards(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
   openPopup(popupAvatarEdit);
@@ -49,11 +71,11 @@ formAvatarEdit.addEventListener('submit', (evt) => {
       profileAvatar.src = result.avatar;
     })
     .catch((err) => {
-    console.log(err);
+      console.log(err);
     })
     .finally(() => {
       renderLoading(formAvatarEdit, false);
-  })
+    })
   closePopup();
 })
 
@@ -95,7 +117,7 @@ formAddPlace.addEventListener('submit', (evt) => {
   renderLoading(formAddPlace, true);
   addCardtToServer(formPlace.value, formLinkPlace.value)
     .then((result) => {
-      renderCardToEnd(addCard(result));
+      renderCard(addCard(result));
     })
     .catch((err) => {
       console.log((err));
@@ -107,7 +129,7 @@ formAddPlace.addEventListener('submit', (evt) => {
   closePopup();
 });
 
-
+initializePage();
 enableValidation(validationObject);
 
 // closeButtons.forEach(btn => {
@@ -115,24 +137,8 @@ enableValidation(validationObject);
 //   btn.addEventListener('click', () => closePopup(popup));
 // });
 
-// загрузка данных профиля с сервера
-initProfile()
-  .then((result) => {
-    userName.textContent = result.name;
-    userProfession.textContent = result.about;
-    profileAvatar.src = result.avatar
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
-//добавление карточек с сервера
-getInitialCards()
-  .then((result) => {
-    initialCards(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
+
 
 

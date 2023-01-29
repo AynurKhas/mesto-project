@@ -1,14 +1,13 @@
-import { closePopup, openPopup } from "./modal.js";
-import { checkWhoOwns, checkMyLikes } from "./utils";
-import { addLike, deleteLike, deleteCard } from "./api";
+import { openPopup } from "./modal.js";
+import { checkWhoOwns, checkMyLikes, deleteCardHtml, noteLike, removeLike } from "./utils";
 
 const popupCard = document.querySelector('.popup_card');
 const captionPopupCard = document.querySelector('.popup__card-caption');
 const elementsContainer = document.querySelector('.elements__list');
 const cardTemplate = document.querySelector('#card-template').content;
 const imagePopupCard = document.querySelector('.popup__card-image');
-const popupDelete = document.querySelector('.popup_delete');
-const formDelete = document.querySelector('.form_delete');
+// const popupDelete = document.querySelector('.popup_delete');
+// const formDelete = document.querySelector('.form_delete');
 // const cards = document.querySelectorAll('.elements__list-item');
 
 // ------------------------------------------- Создание карточки
@@ -30,24 +29,10 @@ export function addCard(object) {
   }
 
   btnlike.addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__button_active');
-    if (evt.target.classList.contains('elements__button_active')) {
-      addLike(object._id)
-        .then((result) => {
-          cardLikeCounter.textContent = result.likes.length;
-        })
-        .catch((err) => {
-          console.log((err));
-        });
-    } else {
-      deleteLike(object._id)
-        .then((result) => {
-          cardLikeCounter.textContent = result.likes.length
-        })
-        .catch((err) => {
-          console.log((err));
-        });
-    }
+    const likeButton = evt.target.classList.toggle('elements__button_active');
+    likeButton === true
+      ? noteLike(object._id, cardLikeCounter)
+      :removeLike(object._id, cardLikeCounter)
   });
   // ------------------------------------------- кнопка удалить
   const elementsTrash = card.querySelector('.elements__trash');
@@ -57,21 +42,7 @@ export function addCard(object) {
   }
 
   elementsTrash.addEventListener('click', function () {
-    openPopup(popupDelete);
-    //-------------------------------------------удаление карточки по кнопке ДА
-    formDelete.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      const deleteCardId = object._id;
-
-      deleteCard(deleteCardId)
-        .then((result) => {
-          card.remove();
-          closePopup();
-        })
-        .catch((err) => {
-          console.log((err));
-        });
-    });
+    deleteCardHtml(card, object._id);
   })
   // ------------------------------------------- попап по нажатию на изображение
   card.querySelector('.elements__item-image').addEventListener('click', () => {
@@ -88,15 +59,11 @@ export function addCard(object) {
 export function renderCard(index) {
   elementsContainer.prepend(index);
 }
-// // ------------------------------------------- Функция добавления карточки в конец html
-export function renderCardToEnd(index) {
-  elementsContainer.append(index);
-}
 
 
 // ------------------------------------------- Добавления карточек из файла сервера
 export function initialCards(object) {
-  object.forEach(function (item) {
+  object.reverse().forEach(function (item) {
     renderCard(addCard(item));
   });
 }
