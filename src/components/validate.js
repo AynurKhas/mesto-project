@@ -50,6 +50,15 @@ const setEventListeners = (formElement, object) => {
   const buttonElement = formElement.querySelector(object.submitButtonSelector);
   // чтобы проверить состояние кнопки в самом начале
   toggleButtonState(inputList, buttonElement, object);
+
+  // деактивируем кнопку при 1й загрузке сайта
+  formElement.addEventListener('reset', () => {
+    // `setTimeout` нужен для того, чтобы дождаться очищения формы (вызов уйдет в конце стэка) и только потом вызвать `toggleButtonState`
+    setTimeout(() => {
+      toggleButtonState(inputList, buttonElement, object);
+    }, 0); // достаточно указать 0 миллисекунд, чтобы после `reset` уже сработало действие
+  });
+
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, object);
@@ -71,7 +80,7 @@ export const enableValidation = (object) => {
 
 export const сheckInputs = (formElement, object) => {
   const inputList = Array.from(formElement.querySelectorAll(object.inputSelector));
-  const buttonElement = formElement.querySelector('.form__button');
+  const buttonElement = formElement.querySelector(object.submitButtonSelector);
   inputList.forEach(inputElement => {
     const meaning = inputElement.value === "";
     if (!meaning) {

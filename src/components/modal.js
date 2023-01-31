@@ -2,16 +2,18 @@
 // ------------------------------------------- Функция открытия
 export function openPopup(item) {
   item.classList.add('popup_opened');
-  document.addEventListener('keydown', keydownEsc);
-  item.addEventListener('click', closeOnClick);
+  document.addEventListener('keydown', handleEscape);
+  item.addEventListener('mousedown', closeOnClick);
 }
 
 // ------------------------------------------- Функция закрытия
 export function closePopup() {
   const popupOpen = document.querySelector('.popup_opened');
-  popupOpen.classList.remove('popup_opened');
-  document.removeEventListener('keydown', keydownEsc);
-  popupOpen.removeEventListener('click', closeOnClick);
+  if (popupOpen) {
+    popupOpen.classList.remove('popup_opened');
+    document.removeEventListener('keydown', handleEscape);
+    popupOpen.removeEventListener('mousedown', closeOnClick);
+  }
 }
 
 // ------------------------------------------- Оверлей и кнопка закрытия попап по клику
@@ -22,7 +24,7 @@ function closeOnClick(evt) {
 }
 
 // ----------функция закрытия при нажатии esc
-function keydownEsc(evt) {
+function handleEscape(evt) {
   if (evt.key === 'Escape') {
     closePopup();
   }
