@@ -7,32 +7,34 @@ const config = {
 }
 
 //ответ от сервера
-const response = (res) => {
+const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка: ${res.status}`);
 }
+// универсальную функцию запроса с проверкой ответа
+function request(url, options) {
+  return fetch(url, options).then(checkResponse)
+}
 
 // запрос Профиля
 export const initProfile = () => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
-    .then(response);
 }
 
 // запрос карт
 export const getInitialCards = () => {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`${config.baseUrl}/cards`, {
     headers: config.headers
   })
-    .then(response);
 }
 
 // отправка отредактированного профиля
 export const profileEditing = (name, about) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
@@ -40,12 +42,11 @@ export const profileEditing = (name, about) => {
       about: `${about}`
     })
   })
-    .then(response);
 }
 
 // запрос на добавление карточки
 export const addCardtToServer = (name, link) => {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -53,43 +54,38 @@ export const addCardtToServer = (name, link) => {
       link: link
     })
   })
-    .then(response);
 }
 
 //добавление лайка
 export const addLike = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+  return request(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers
   })
-    .then(response);
 }
 //удаление лайка
 export const deleteLike = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+  return request(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(response);
 }
 
 //редактирование аватара
 export const editAvatarFromServer = (avatar) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
+  return request(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       avatar: avatar
     })
   })
-    .then(response);
 }
 
 //удаление карты
 export const deleteCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+  return request(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(response);
 }

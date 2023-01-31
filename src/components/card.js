@@ -1,14 +1,15 @@
 import { openPopup } from "./modal.js";
-import { checkWhoOwns, checkMyLikes, deleteCardHtml, noteLike, removeLike } from "./utils";
+import { deleteCard, addLike, deleteLike} from "./api.js";
+import { checkMyLikes } from "./utils.js";
+import {
+  popupCard,
+  captionPopupCard,
+  elementsContainer,
+  cardTemplate,
+  imagePopupCard
+} from "./constants.js";
+import { userId } from "./index.js";
 
-const popupCard = document.querySelector('.popup_card');
-const captionPopupCard = document.querySelector('.popup__card-caption');
-const elementsContainer = document.querySelector('.elements__list');
-const cardTemplate = document.querySelector('#card-template').content;
-const imagePopupCard = document.querySelector('.popup__card-image');
-// const popupDelete = document.querySelector('.popup_delete');
-// const formDelete = document.querySelector('.form_delete');
-// const cards = document.querySelectorAll('.elements__list-item');
 
 // ------------------------------------------- Создание карточки
 export function addCard(object) {
@@ -28,15 +29,39 @@ export function addCard(object) {
     btnlike.classList.add('elements__button_active');
   }
 
-  btnlike.addEventListener('click', function (evt) {
-    const likeButton = evt.target.classList.toggle('elements__button_active');
-    likeButton === true
-      ? noteLike(object._id, cardLikeCounter)
-      :removeLike(object._id, cardLikeCounter)
-  });
+  btnlike.addEventListener('click', clickLikeBtn)
+  function clickLikeBtn(evt) {
+    const LikeButtonStatus = evt.target.classList.contains('elements__button_active');
+    LikeButtonStatus === true
+      ? removeLike(object._id, cardLikeCounter, evt) //console.log('убрать')
+      : likeCard(object._id, cardLikeCounter, evt) //console.log('покрасить')
+  }
+
+  // клик по кнопке лайк нравиться
+  function likeCard(id, counter, evt) {
+    addLike(id).then((result) => {
+        counter.textContent = result.likes.length;
+        evt.target.classList.add('elements__button_active');
+      })
+      .catch((err) => {
+        console.log((err));
+      });
+  }
+
+  // клик по кнопке лайк убрать нравиться
+  function removeLike(id, counter, evt) {
+    deleteLike(id).then((result) => {
+        counter.textContent = result.likes.length;
+        evt.target.classList.remove('elements__button_active');
+      })
+      .catch((err) => {
+        console.log((err));
+      });
+  }
+
   // ------------------------------------------- кнопка удалить
   const elementsTrash = card.querySelector('.elements__trash');
-  if (!checkWhoOwns(object.owner._id)) {
+  if (userId !== object.owner._id) {
     elementsTrash.classList.add('elements__trash_disabled');
     elementsTrash.setAttribute("disabled", true);
   }
@@ -44,8 +69,20 @@ export function addCard(object) {
   elementsTrash.addEventListener('click', function () {
     deleteCardHtml(card, object._id);
   })
+
+
+  //--------------------------удаление катрочки из html по кнопке удалить
+  function deleteCardHtml(card, id) {
+    deleteCard(id)
+      .then(() => {
+        card.remove();
+      })
+      .catch((err) => {
+        console.log((err));
+      });
+  }
   // ------------------------------------------- попап по нажатию на изображение
-  card.querySelector('.elements__item-image').addEventListener('click', () => {
+  cardImage.addEventListener('click', () => {
     openPopup(popupCard);
     imagePopupCard.src = object.link;
     imagePopupCard.alt = object.name;
@@ -62,8 +99,8 @@ export function renderCard(index) {
 
 
 // ------------------------------------------- Добавления карточек из файла сервера
-export function initialCards(object) {
-  object.reverse().forEach(function (item) {
+export function initialCards(cardList) {
+  cardList.reverse().forEach(function (item) {
     renderCard(addCard(item));
   });
 }
