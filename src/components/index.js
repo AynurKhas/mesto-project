@@ -2,7 +2,7 @@ import '../pages/index.css';
 import { initialCards, addCard, renderCard } from "./card.js";
 import { openPopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
-import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer } from "./api.js"
+import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer,api } from "./api.js"
 import {
   validationObject,
   popupProfileEdit,
@@ -30,7 +30,7 @@ export let userId;
 function initializePage() {
 
   // ОбЪединенный запрос с сервера(инфо о профиле и карточки)
-  Promise.all([initProfile(), getInitialCards()])
+  Promise.all([api.initProfile(), api.getInitialCards()])
     .then(([userData, cards]) => {
       userName.textContent = userData.name;
       userProfession.textContent = userData.about;
@@ -56,7 +56,7 @@ formAvatarEdit.addEventListener('submit', (evt) => {
 
 function handleeditAvatarSubmit(evt) {
   function makeRequest() {
-    return editAvatarFromServer(formAvatarEditInput.value).then((result) => {
+    return api.editAvatarFromServer(formAvatarEditInput.value).then((result) => {
       profileAvatar.src = result.avatar;
     })
   }
@@ -84,7 +84,7 @@ formAddProfile.addEventListener('submit', (evt) => {
 })
 function handleProfileFormSubmit(evt) {
   function makeRequest() {
-    return profileEditing(formUserName.value, formUserProfession.value).then((userData) => {
+    return api.profileEditing(formUserName.value, formUserProfession.value).then((userData) => {
       userName.textContent = userData.name;
       userProfession.textContent = userData.about;
     });
@@ -118,7 +118,7 @@ formAddPlace.addEventListener('submit', (evt) => {
 
 function handleAddCardFormSubmit(evt) {
   function makeRequest() {
-    return addCardtToServer(formPlace.value, formLinkPlace.value).then((result) => {
+    return api.addCardtToServer(formPlace.value, formLinkPlace.value).then((result) => {
       renderCard(addCard(result));
       formAddPlace.reset();
     })
