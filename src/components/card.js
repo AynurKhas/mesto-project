@@ -1,5 +1,5 @@
 import { openPopup } from "./modal.js";
-import { deleteCard, addLike, deleteLike} from "./api.js";
+import { deleteCard, addLike, deleteLike, api} from "./api.js";
 import { checkMyLikes } from "./utils.js";
 import {
   popupCard,
@@ -39,7 +39,7 @@ export function addCard(object) {
 
   // клик по кнопке лайк нравиться
   function likeCard(id, counter, evt) {
-    addLike(id).then((result) => {
+    api.addLike(id).then((result) => {
         counter.textContent = result.likes.length;
         evt.target.classList.add('elements__button_active');
       })
@@ -50,7 +50,7 @@ export function addCard(object) {
 
   // клик по кнопке лайк убрать нравиться
   function removeLike(id, counter, evt) {
-    deleteLike(id).then((result) => {
+    api.deleteLike(id).then((result) => {
         counter.textContent = result.likes.length;
         evt.target.classList.remove('elements__button_active');
       })
@@ -73,7 +73,7 @@ export function addCard(object) {
 
   //--------------------------удаление катрочки из html по кнопке удалить
   function deleteCardHtml(card, id) {
-    deleteCard(id)
+    api.deleteCard(id)
       .then(() => {
         card.remove();
       })
