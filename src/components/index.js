@@ -1,8 +1,8 @@
 import '../pages/index.css';
-import { initialCards, addCard, renderCard } from "./card.js";
+import { initialCards, addCard, renderCard, Card } from "./card.js";
 import { openPopup } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
-import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer,api } from "./api.js"
+import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer, api } from "./api.js"
 import {
   validationObject,
   popupProfileEdit,
@@ -21,11 +21,16 @@ import {
   avatarEdit,
   popupAvatarEdit,
   formAvatarEdit,
-  formAvatarEditInput
+  formAvatarEditInput,
+  elementsContainer
 } from "./constants";
 import { handleSubmit } from "./submit.js";
+import { Section } from "./Section.js";
 
 export let userId;
+
+
+
 //--------------------------------------инициализация страницы
 function initializePage() {
 
@@ -37,12 +42,24 @@ function initializePage() {
       profileAvatar.src = userData.avatar;
       userId = userData._id;
 
-      initialCards(cards);
+      // initialCards(cards);
+
+      const cardList = new Section({
+        data: cards,
+        renderer: (item) => {
+          const card = new Card(item, '#card-template');
+          const cardElement = card.generate();
+          cardList.setItem(cardElement);
+        }
+      }, elementsContainer);
+
+      cardList.renderItems();
     })
     .catch((err) => {
       console.log(err);
     });
 };
+/*
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
   openPopup(popupAvatarEdit);
@@ -97,6 +114,7 @@ formAddPlace.addEventListener('submit', (evt) => {
   handleAddCardFormSubmit(evt);
 })
 
+ */
 /* ..рабочий, старая версия
   formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -115,7 +133,7 @@ formAddPlace.addEventListener('submit', (evt) => {
     });
 });
 */
-
+/*
 function handleAddCardFormSubmit(evt) {
   function makeRequest() {
     return api.addCardtToServer(formPlace.value, formLinkPlace.value).then((result) => {
@@ -127,9 +145,9 @@ function handleAddCardFormSubmit(evt) {
 }
 
 //---------------------
-initializePage();
-enableValidation(validationObject);
 
+enableValidation(validationObject); */
+initializePage();
 
 
 

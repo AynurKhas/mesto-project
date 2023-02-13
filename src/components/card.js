@@ -1,5 +1,5 @@
 import { openPopup } from "./modal.js";
-import { deleteCard, addLike, deleteLike, api} from "./api.js";
+import { deleteCard, addLike, deleteLike, api } from "./api.js";
 import { checkMyLikes } from "./utils.js";
 import {
   popupCard,
@@ -10,6 +10,70 @@ import {
 } from "./constants.js";
 import { userId } from "./index.js";
 
+
+//------------------------------------------------------------------------
+export class Card {
+  constructor(data, selector) {
+    this._name = data.name;
+    this._link = data.link;
+    this._likes = data.likes;
+    this._id = data._id;
+    this._ownerId = data.owner._id;
+
+    this._selector = selector;
+  }
+
+  _getElement() {
+    const cardElement = document
+      .querySelector(this._selector)
+      .content
+      .querySelector('.elements__list-item')
+      .cloneNode(true);
+
+    return cardElement;
+  }
+
+  generate() {
+    this._element = this._getElement();
+    //this._setEventListeners();
+
+    /* this._element.querySelector('.card__image').style.backgroundImage = `url(${this._image})`;
+    this._element.querySelector('.card__title').textContent = this._title;
+    this._element.querySelector('.card__info').textContent = this._description;
+    this._element.querySelector('.card__price-property').textContent = this._price; */
+
+  const cardImage = this._element.querySelector('.elements__item-image');
+  const cardTitle = this._element.querySelector('.elements__group-title');
+  const cardLikeCounter = this._element.querySelector('.elements__like-counter');
+  cardTitle.textContent = this._name;
+  cardImage.setAttribute('src', this._link);
+  cardImage.setAttribute('alt', this._name);
+  cardLikeCounter.textContent = this._likes.length;
+
+    return this._element;
+  }
+
+  /* _handleOpenPopup() {
+    popupImage.src = this._image;
+    popupElement.classList.add('popup_is-opened');
+  }
+
+  _handleClosePopup() {
+    popupImage.src = '';
+    popupElement.classList.remove('popup_is-opened');
+  }
+
+  _setEventListeners() {
+    this._element.addEventListener('click', () => {
+      this._handleOpenPopup();
+    });
+
+    popupCloseButton.addEventListener('click', () => {
+      this._handleClosePopup();
+    });
+  } */
+}
+//------------------------------------------------------------------------
 
 // ------------------------------------------- Создание карточки
 export function addCard(object) {
@@ -40,9 +104,9 @@ export function addCard(object) {
   // клик по кнопке лайк нравиться
   function likeCard(id, counter, evt) {
     api.addLike(id).then((result) => {
-        counter.textContent = result.likes.length;
-        evt.target.classList.add('elements__button_active');
-      })
+      counter.textContent = result.likes.length;
+      evt.target.classList.add('elements__button_active');
+    })
       .catch((err) => {
         console.log((err));
       });
@@ -51,9 +115,9 @@ export function addCard(object) {
   // клик по кнопке лайк убрать нравиться
   function removeLike(id, counter, evt) {
     api.deleteLike(id).then((result) => {
-        counter.textContent = result.likes.length;
-        evt.target.classList.remove('elements__button_active');
-      })
+      counter.textContent = result.likes.length;
+      evt.target.classList.remove('elements__button_active');
+    })
       .catch((err) => {
         console.log((err));
       });
