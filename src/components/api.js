@@ -57,14 +57,14 @@ class Api {
 
   //добавление лайка
   addLike = (cardId) => {
-    return request(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return this.request(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: 'PUT',
       headers: this._headers
     })
   }
   //удаление лайка
   deleteLike = (cardId) => {
-    return request(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return this.request(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
     })
@@ -72,7 +72,7 @@ class Api {
 
   //редактирование аватара
   editAvatarFromServer = (avatar) => {
-    return request(`${this._baseUrl}/users/me/avatar`, {
+    return this.request(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -83,7 +83,7 @@ class Api {
 
   //удаление карты
   deleteCard = (cardId) => {
-    return request(`${this._baseUrl}/cards/${cardId}`, {
+    return this.request(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
     })
