@@ -19,7 +19,6 @@ export class Card {
     this._likes = data.likes;
     this._id = data._id;
     this._ownerId = data.owner._id;
-
     this._selector = selector;
   }
 
@@ -36,11 +35,6 @@ export class Card {
   generate() {
     this._element = this._getElement();
     //this._setEventListeners();
-
-    /* this._element.querySelector('.card__image').style.backgroundImage = `url(${this._image})`;
-    this._element.querySelector('.card__title').textContent = this._title;
-    this._element.querySelector('.card__info').textContent = this._description;
-    this._element.querySelector('.card__price-property').textContent = this._price; */
 
   const cardImage = this._element.querySelector('.elements__item-image');
   const cardTitle = this._element.querySelector('.elements__group-title');
