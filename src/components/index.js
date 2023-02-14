@@ -29,7 +29,13 @@ import { Section } from "./Section.js";
 
 export let userId;
 
-
+const cardList = new Section({
+  renderer: (item) => {
+    const card = new Card(item, '#card-template');
+    const cardElement = card.generate();
+    cardList.setItem(cardElement);
+  }
+}, elementsContainer);
 
 //--------------------------------------инициализация страницы
 function initializePage() {
@@ -42,18 +48,7 @@ function initializePage() {
       profileAvatar.src = userData.avatar;
       userId = userData._id;
 
-      // initialCards(cards);
-
-      const cardList = new Section({
-        data: cards,
-        renderer: (item) => {
-          const card = new Card(item, '#card-template');
-          const cardElement = card.generate();
-          cardList.setItem(cardElement);
-        }
-      }, elementsContainer);
-
-      cardList.renderItems();
+      cardList.renderItems(cards);
     })
     .catch((err) => {
       console.log(err);
