@@ -41,6 +41,7 @@ const cardList = new Section({
       }
     },
     handleLikeClickBody,
+    handleDeleteClick,
     '#card-template');
     const cardElement = card.generate(userId);
     cardList.setItem(cardElement);

@@ -14,7 +14,7 @@ import { data } from "autoprefixer";
 
 //------------------------------------------------------------------------
 export class Card {
-  constructor({ data, handleCardClick }, handleLikeClick,selector) {
+  constructor({ data, handleCardClick }, handleLikeClick, handleDeleteClick,selector) {
     this.data = data;
     this._name = data.name;
     this._link = data.link;
@@ -23,6 +23,7 @@ export class Card {
     this._ownerId = data.owner._id;
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
+    this._handleDeleteClick = handleDeleteClick;
     this._selector = selector;
   }
 
@@ -57,6 +58,9 @@ export class Card {
     });
     this._element.querySelector('.elements__item-image').addEventListener('click', () => {
       this._handleCardClick(this.data);
+    });
+    this._cardTrashButton.addEventListener('click', () => {
+      this._handleDeleteClick(this);
     });
   }
 
