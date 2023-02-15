@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import { initialCards, addCard, renderCard, Card } from "./card.js";
-import { openPopup } from "./modal.js";
+import { openPopup, PopupWithImage, PopupWithForm } from "./modal.js";
 import { enableValidation, сheckInputs } from "./validate.js";
 import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer, api } from "./api.js"
 import {
@@ -22,19 +22,25 @@ import {
   popupAvatarEdit,
   formAvatarEdit,
   formAvatarEditInput,
-  elementsContainer
+  elementsContainer,
+  popupCard
 } from "./constants";
 import { handleSubmit } from "./submit.js";
 import { Section } from "./Section.js";
 
 export let userId;
+// let cardData;
 
 const cardList = new Section({
   renderer: (item) => {
-    const card = new Card(
-      item,
-      '#card-template',
-      handleLikeClickBody);
+    const card = new Card({
+      data: item,
+      handleCardClick: (data) => {
+        const popupCardImage = new PopupWithImage(data, popupCard);
+        popupCardImage.open();
+      },
+      handleLikeClickBody,
+    }, '#card-template');
     const cardElement = card.generate(userId);
     cardList.setItem(cardElement);
   }
@@ -80,10 +86,12 @@ function handleLikeClickBody(cardElement,status) {
 
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
-  openPopup(popupAvatarEdit);
+  const popupAvatar = new PopupWithForm(popupAvatarEdit)
+  // openPopup(popupAvatarEdit);
+  popupAvatar.open();
   сheckInputs(formAvatarEdit, validationObject);
 })
-
+/*
 //--------------------------------------------сохранение нового аватара профиля
 formAvatarEdit.addEventListener('submit', (evt) => {
   handleeditAvatarSubmit(evt);

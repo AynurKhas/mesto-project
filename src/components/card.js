@@ -1,4 +1,4 @@
-import { openPopup } from "./modal.js";
+import { openPopup, PopupWithImage, Popup } from "./modal.js";
 import { deleteCard, addLike, deleteLike, api } from "./api.js";
 import { checkMyLikes } from "./utils.js";
 import {
@@ -8,23 +8,22 @@ import {
   cardTemplate,
   imagePopupCard
 } from "./constants.js";
-import { userId } from "./index.js";
+import { userId, popupCardImage } from "./index.js";
+import { data } from "autoprefixer";
 
 
 //------------------------------------------------------------------------
 export class Card {
-  constructor(
-    data,
-    selector,
-    handleLikeClick
-  ) {
+  constructor({ data, handleCardClick, handleLikeClick }, selector) {
+    this.data = data;
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this._id = data._id;
     this._ownerId = data.owner._id;
-    this._selector = selector;
+    this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
+    this._selector = selector;
   }
 
   _getElement() {
@@ -56,6 +55,9 @@ export class Card {
     this._btnlike.addEventListener('click', () => {
       this._handleLikeClick(this,this._isActiveLike());
     });
+    this._element.querySelector('.elements__item-image').addEventListener('click', () => {
+      this._handleCardClick(this.data);
+    });
   }
 
   generate(userId) {
@@ -75,15 +77,24 @@ export class Card {
       this._btnlike.classList.add('elements__button_active');
     }
     this._setEventListeners();
-    
+
     return this._element;
   }
 
-  /* _handleOpenPopup() {
+
+ /*  _setEventListeners() {
+    this._element.querySelector('.elements__item-image').addEventListener('click', () => {
+      this._handleCardClick(this.data);
+    });
+  } */
+
+  /* _handleOpenPopup () {
     popupImage.src = this._image;
     popupElement.classList.add('popup_is-opened');
-  }
 
+  }
+ */
+  /*
   _handleClosePopup() {
     popupImage.src = '';
     popupElement.classList.remove('popup_is-opened');
@@ -100,7 +111,7 @@ export class Card {
   } */
 }
 //------------------------------------------------------------------------
-
+/*
 // ------------------------------------------- Создание карточки
 /* export function addCard(object) {
   const card = cardTemplate.querySelector('.elements__list-item').cloneNode(true);
