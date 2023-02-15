@@ -62,7 +62,7 @@ function initializePage() {
       cardList.renderItems(cards);
     })
     .catch((err) => {
-      console.log(err+'promise111');
+      console.log(err);
     });
 };
 
