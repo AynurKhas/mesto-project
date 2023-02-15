@@ -51,7 +51,6 @@ export class Card {
 
     return this._element;
 
-    //this._setEventListeners();
     /* this._element.querySelector('.card__image').style.backgroundImage = `url(${this._image})`;
     this._element.querySelector('.card__title').textContent = this._title;
     this._element.querySelector('.card__info').textContent = this._description;

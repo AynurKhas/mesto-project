@@ -29,18 +29,21 @@ import { handleSubmit } from "./submit.js";
 import { Section } from "./Section.js";
 
 export let userId;
-let cardData;
+// let cardData;
 
-/* const cardList = new Section({
-  data: cardData,
+const cardList = new Section({
   renderer: (item) => {
-    const card = new Card(item, '#card-template');
+    const card = new Card({
+      data: item,
+      handleCardClick: (data) => {
+        const popupCardImage = new PopupWithImage(data, popupCard);
+        popupCardImage.open();
+      }
+    }, '#card-template');
     const cardElement = card.generate();
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
-
-cardList.renderItems(); */
 
 //--------------------------------------инициализация страницы
 function initializePage() {
@@ -52,27 +55,9 @@ function initializePage() {
       userProfession.textContent = userData.about;
       profileAvatar.src = userData.avatar;
       userId = userData._id;
-      cardData = cards;
 
-      const cardList = new Section({
-        data: cardData,
-        renderer: (item) => {
-          const card = new Card({
-            data: item,
-            handleCardClick: (data) => {
-              const popupCardImage = new PopupWithImage(data, popupCard);
-              popupCardImage.open();
-            }
-          },
-            '#card-template');
-          const cardElement = card.generate();
-          cardList.setItem(cardElement);
-        }
-      }, elementsContainer);
-
-      cardList.renderItems();
+      cardList.renderItems(cards);
       // initialCards(cards);
-      // cardList.renderItems();
     })
     .catch((err) => {
       console.log(err);
