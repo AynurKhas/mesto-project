@@ -67,6 +67,7 @@ export class Card {
     this._cardTitle = this._element.querySelector('.elements__group-title');
     this._btnlike = this._element.querySelector('.elements__button');
     this._cardLikeCounter = this._element.querySelector('.elements__like-counter');
+    this._cardTrashButton = this._element.querySelector('.elements__trash');
     this._cardTitle.textContent = this._name;
     this._cardImage.setAttribute('src', this._link);
     this._cardTitle.setAttribute('alt', this._name);
