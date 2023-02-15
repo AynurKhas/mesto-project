@@ -16,7 +16,7 @@ export class Card {
   constructor(
     data,
     selector,
-    //handleLikeClick
+    handleLikeClick
   ) {
     this._name = data.name;
     this._link = data.link;
@@ -24,7 +24,7 @@ export class Card {
     this._id = data._id;
     this._ownerId = data.owner._id;
     this._selector = selector;
-    //this._handleLikeClick = handleLikeClick;
+    this._handleLikeClick = handleLikeClick;
   }
 
   _getElement() {
@@ -43,44 +43,23 @@ export class Card {
       }
     })
   }
-  // клик по кнопке лайк нравиться
-  _likeCard() {
-    api.addLike(this._id).then((res) => {
-      this._cardLikeCounter.textContent = res.likes.length;
-      this._btnlike.classList.add('elements__button_active');
-    })
-      .catch((err) => {
-        console.log((err));
-      });
-  }
 
-  // клик по кнопке лайк убрать нравиться
-  _removeLikeCard() {
-    api.deleteLike(this._id).then((res) => {
-      this._cardLikeCounter.textContent = res.likes.length;
-      this._btnlike.classList.remove('elements__button_active');
-    })
-      .catch((err) => {
-        console.log((err));
-      });
-  }
-  
-  _handleLike() {
-    this._btnlike.classList.contains('elements__button_active') === true
-      ? this._removeLikeCard()
-      : this._likeCard()
+  _isActiveLike() {
+      if (this._btnlike.classList.contains('elements__button_active')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   _setEventListeners() {
     this._btnlike.addEventListener('click', () => {
-      //this._handleLikeClick(this);
-      this._handleLike();
+      this._handleLikeClick(this,this._isActiveLike());
     });
   }
 
   generate(userId) {
     this._element = this._getElement();
-   
 
     this._cardImage = this._element.querySelector('.elements__item-image');
     this._cardTitle = this._element.querySelector('.elements__group-title');
@@ -96,8 +75,6 @@ export class Card {
       this._btnlike.classList.add('elements__button_active');
     }
     this._setEventListeners();
-
-    
     
     return this._element;
   }

@@ -33,8 +33,8 @@ const cardList = new Section({
   renderer: (item) => {
     const card = new Card(
       item,
-      //handleLikeClickBody,
-      '#card-template');
+      '#card-template',
+      handleLikeClickBody);
     const cardElement = card.generate(userId);
     cardList.setItem(cardElement);
   }
@@ -54,17 +54,29 @@ function initializePage() {
       cardList.renderItems(cards);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err+'promise111');
     });
 };
 
-/* function handleLikeClickBody(cardElement){
-  if (cardElementbtnLike.classList.contains('elements__button_active')) {
-    cardElement.removeLikeCard();
+function handleLikeClickBody(cardElement,status) {
+  if (status) {
+    api.deleteLike(cardElement._id).then((res) => {
+      cardElement._cardLikeCounter.textContent = res.likes.length;
+      cardElement._btnlike.classList.remove('elements__button_active');
+    })
+      .catch((err) => {
+        console.log((err));
+      });
   } else {
-    cardElement.likeCard();
+    api.addLike(cardElement._id).then((res) => {
+      cardElement._cardLikeCounter.textContent = res.likes.length;
+      cardElement._btnlike.classList.add('elements__button_active');
+    })
+      .catch((err) => {
+        console.log((err));
+      });
   }
-} */
+}
 
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
