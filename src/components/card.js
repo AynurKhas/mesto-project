@@ -13,13 +13,19 @@ import { userId } from "./index.js";
 
 //------------------------------------------------------------------------
 export class Card {
-  constructor(data, selector) {
+  constructor(
+    data,
+    selector,
+    handleLike
+  ) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this._id = data._id;
     this._ownerId = data.owner._id;
     this._selector = selector;
+
+  /*   this._handleLike = handleLike; */
   }
 
   _getElement() {
@@ -32,18 +38,52 @@ export class Card {
     return cardElement;
   }
 
+  // клик по кнопке лайк нравиться
+  _likeCard() {
+    api.addLike(this._id).then((res) => {
+      this._cardLikeCounter.textContent = res.likes.length;
+      this._btnlike.classList.add('elements__button_active');
+    })
+      .catch((err) => {
+        console.log((err));
+      });
+  }
+
+  // клик по кнопке лайк убрать нравиться
+  _removeLike() {
+    api.deleteLike(this._id).then((res) => {
+      this._cardLikeCounter.textContent = res.likes.length;
+      this._btnlike.classList.remove('elements__button_active');
+    })
+      .catch((err) => {
+        console.log((err));
+      });
+  }
+  _handleLike() {
+    this._btnlike.classList.contains('elements__button_active') === true
+      ? this._removeLike()
+      : this._likeCard()
+  }
+
+  _setEventListeners() {
+    this._btnlike.addEventListener('click', () => {
+      this._handleLike();
+    });
+  }
+
   generate() {
     this._element = this._getElement();
-    //this._setEventListeners();
+   
 
-  const cardImage = this._element.querySelector('.elements__item-image');
-  const cardTitle = this._element.querySelector('.elements__group-title');
-  const cardLikeCounter = this._element.querySelector('.elements__like-counter');
-  cardTitle.textContent = this._name;
-  cardImage.setAttribute('src', this._link);
-  cardImage.setAttribute('alt', this._name);
-  cardLikeCounter.textContent = this._likes.length;
-
+    const cardImage = this._element.querySelector('.elements__item-image');
+    const cardTitle = this._element.querySelector('.elements__group-title');
+    this._btnlike = this._element.querySelector('.elements__button');
+    this._cardLikeCounter = this._element.querySelector('.elements__like-counter');
+    cardTitle.textContent = this._name;
+    cardImage.setAttribute('src', this._link);
+    cardImage.setAttribute('alt', this._name);
+    this._cardLikeCounter.textContent = this._likes.length;
+    this._setEventListeners();
     return this._element;
   }
 
@@ -70,7 +110,7 @@ export class Card {
 //------------------------------------------------------------------------
 
 // ------------------------------------------- Создание карточки
-export function addCard(object) {
+/* export function addCard(object) {
   const card = cardTemplate.querySelector('.elements__list-item').cloneNode(true);
   const cardImage = card.querySelector('.elements__item-image');
   const cardTitle = card.querySelector('.elements__group-title');
@@ -87,7 +127,7 @@ export function addCard(object) {
     btnlike.classList.add('elements__button_active');
   }
 
-  btnlike.addEventListener('click', clickLikeBtn)
+  btnlike.addEventListener('click', clickLikeBtn);
   function clickLikeBtn(evt) {
     const LikeButtonStatus = evt.target.classList.contains('elements__button_active');
     LikeButtonStatus === true
@@ -161,4 +201,4 @@ export function initialCards(cardList) {
   cardList.reverse().forEach(function (item) {
     renderCard(addCard(item));
   });
-}
+} */

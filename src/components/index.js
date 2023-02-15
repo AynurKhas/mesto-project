@@ -47,7 +47,7 @@ function initializePage() {
       userProfession.textContent = userData.about;
       profileAvatar.src = userData.avatar;
       userId = userData._id;
-      
+
       cardList.renderItems(cards);
     })
     .catch((err) => {
