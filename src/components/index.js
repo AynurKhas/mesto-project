@@ -38,9 +38,10 @@ const cardList = new Section({
       handleCardClick: (data) => {
         const popupCardImage = new PopupWithImage(data, popupCard);
         popupCardImage.open();
-      },
-      handleLikeClickBody,
-    }, '#card-template');
+      }
+    },
+    handleLikeClickBody,
+    '#card-template');
     const cardElement = card.generate(userId);
     cardList.setItem(cardElement);
   }

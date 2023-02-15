@@ -14,7 +14,7 @@ import { data } from "autoprefixer";
 
 //------------------------------------------------------------------------
 export class Card {
-  constructor({ data, handleCardClick, handleLikeClick }, selector) {
+  constructor({ data, handleCardClick }, handleLikeClick,selector) {
     this.data = data;
     this._name = data.name;
     this._link = data.link;
