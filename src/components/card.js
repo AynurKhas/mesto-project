@@ -36,7 +36,7 @@ export class Card {
 
     return cardElement;
   }
-  _checkMyLikes(userId){
+  _checkMyLikes(userId){ //Проверка во время загрузки карточек активен ли лайк
     return this._likes.some((likeId) => {
       if (likeId._id === userId) {
         return true
@@ -44,7 +44,7 @@ export class Card {
     })
   }
 
-  _isActiveLike() {
+  _isActiveLike() { //Проверка активен ли лайк
       if (this._btnlike.classList.contains('elements__button_active')) {
       return true;
     } else {
@@ -70,7 +70,7 @@ export class Card {
     this._cardTitle.setAttribute('alt', this._name);
     this._cardLikeCounter.textContent = this._likes.length;
 
-    //проверка наличия отмеченного мною лайка при открытии страницы
+    //активируем лайк при загрузке
     if (this._checkMyLikes(userId)) {
       this._btnlike.classList.add('elements__button_active');
     }
