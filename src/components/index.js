@@ -89,7 +89,7 @@ function handleLikeClickBody(cardElement,status) {
 function handleDeleteCardBody(cardElement){
   api.deleteCard(cardElement._id)
   .then(() => {
-    deleteCard();
+    cardElement.deleteCard();
   })
   .catch((err) => {
     console.log((err));
