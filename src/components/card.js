@@ -1,4 +1,4 @@
-import { openPopup } from "./modal.js";
+import { openPopup, PopupWithImage, Popup } from "./modal.js";
 import { deleteCard, addLike, deleteLike, api } from "./api.js";
 import { checkMyLikes } from "./utils.js";
 import {
@@ -8,17 +8,21 @@ import {
   cardTemplate,
   imagePopupCard
 } from "./constants.js";
-import { userId } from "./index.js";
+import { userId, popupCardImage } from "./index.js";
+import { data } from "autoprefixer";
 
 
 //------------------------------------------------------------------------
 export class Card {
-  constructor(data, selector) {
+  constructor({ data, handleCardClick }, selector) {
+    this.data = data;
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this._id = data._id;
     this._ownerId = data.owner._id;
+
+    this._handleCardClick = handleCardClick
 
     this._selector = selector;
   }
@@ -35,29 +39,39 @@ export class Card {
 
   generate() {
     this._element = this._getElement();
-    //this._setEventListeners();
 
+    const cardImage = this._element.querySelector('.elements__item-image');
+    const cardTitle = this._element.querySelector('.elements__group-title');
+    const cardLikeCounter = this._element.querySelector('.elements__like-counter');
+    cardTitle.textContent = this._name;
+    cardImage.setAttribute('src', this._link);
+    cardImage.setAttribute('alt', this._name);
+    cardLikeCounter.textContent = this._likes.length;
+    this._setEventListeners();
+
+    return this._element;
+
+    //this._setEventListeners();
     /* this._element.querySelector('.card__image').style.backgroundImage = `url(${this._image})`;
     this._element.querySelector('.card__title').textContent = this._title;
     this._element.querySelector('.card__info').textContent = this._description;
     this._element.querySelector('.card__price-property').textContent = this._price; */
-
-  const cardImage = this._element.querySelector('.elements__item-image');
-  const cardTitle = this._element.querySelector('.elements__group-title');
-  const cardLikeCounter = this._element.querySelector('.elements__like-counter');
-  cardTitle.textContent = this._name;
-  cardImage.setAttribute('src', this._link);
-  cardImage.setAttribute('alt', this._name);
-  cardLikeCounter.textContent = this._likes.length;
-
-    return this._element;
   }
 
-  /* _handleOpenPopup() {
+
+  _setEventListeners() {
+    this._element.querySelector('.elements__item-image').addEventListener('click', () => {
+      this._handleCardClick(this.data);
+    });
+  }
+
+  /* _handleOpenPopup () {
     popupImage.src = this._image;
     popupElement.classList.add('popup_is-opened');
-  }
 
+  }
+ */
+  /*
   _handleClosePopup() {
     popupImage.src = '';
     popupElement.classList.remove('popup_is-opened');
@@ -74,7 +88,7 @@ export class Card {
   } */
 }
 //------------------------------------------------------------------------
-
+/*
 // ------------------------------------------- Создание карточки
 export function addCard(object) {
   const card = cardTemplate.querySelector('.elements__list-item').cloneNode(true);
@@ -168,3 +182,4 @@ export function initialCards(cardList) {
     renderCard(addCard(item));
   });
 }
+ */
