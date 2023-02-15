@@ -63,7 +63,7 @@ export class Card {
   }
 
   deleteCard(){
-    this._element.closest('.elements__list-item').remove();
+    this._element.remove();
   }
 
   _setEventListeners() {
