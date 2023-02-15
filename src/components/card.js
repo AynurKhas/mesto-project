@@ -16,7 +16,7 @@ export class Card {
   constructor(
     data,
     selector,
-    handleLike
+    //handleLikeClick
   ) {
     this._name = data.name;
     this._link = data.link;
@@ -24,8 +24,7 @@ export class Card {
     this._id = data._id;
     this._ownerId = data.owner._id;
     this._selector = selector;
-
-  /*   this._handleLike = handleLike; */
+    //this._handleLikeClick = handleLikeClick;
   }
 
   _getElement() {
@@ -37,7 +36,13 @@ export class Card {
 
     return cardElement;
   }
-
+  _checkMyLikes(userId){
+    return this._likes.some((likeId) => {
+      if (likeId._id === userId) {
+        return true
+      }
+    })
+  }
   // клик по кнопке лайк нравиться
   _likeCard() {
     api.addLike(this._id).then((res) => {
@@ -50,7 +55,7 @@ export class Card {
   }
 
   // клик по кнопке лайк убрать нравиться
-  _removeLike() {
+  _removeLikeCard() {
     api.deleteLike(this._id).then((res) => {
       this._cardLikeCounter.textContent = res.likes.length;
       this._btnlike.classList.remove('elements__button_active');
@@ -59,31 +64,41 @@ export class Card {
         console.log((err));
       });
   }
+  
   _handleLike() {
     this._btnlike.classList.contains('elements__button_active') === true
-      ? this._removeLike()
+      ? this._removeLikeCard()
       : this._likeCard()
   }
 
   _setEventListeners() {
     this._btnlike.addEventListener('click', () => {
+      //this._handleLikeClick(this);
       this._handleLike();
     });
   }
 
-  generate() {
+  generate(userId) {
     this._element = this._getElement();
    
 
-    const cardImage = this._element.querySelector('.elements__item-image');
-    const cardTitle = this._element.querySelector('.elements__group-title');
+    this._cardImage = this._element.querySelector('.elements__item-image');
+    this._cardTitle = this._element.querySelector('.elements__group-title');
     this._btnlike = this._element.querySelector('.elements__button');
     this._cardLikeCounter = this._element.querySelector('.elements__like-counter');
-    cardTitle.textContent = this._name;
-    cardImage.setAttribute('src', this._link);
-    cardImage.setAttribute('alt', this._name);
+    this._cardTitle.textContent = this._name;
+    this._cardImage.setAttribute('src', this._link);
+    this._cardTitle.setAttribute('alt', this._name);
     this._cardLikeCounter.textContent = this._likes.length;
+
+    //проверка наличия отмеченного мною лайка при открытии страницы
+    if (this._checkMyLikes(userId)) {
+      this._btnlike.classList.add('elements__button_active');
+    }
     this._setEventListeners();
+
+    
+    
     return this._element;
   }
 

@@ -31,8 +31,11 @@ export let userId;
 
 const cardList = new Section({
   renderer: (item) => {
-    const card = new Card(item, '#card-template');
-    const cardElement = card.generate();
+    const card = new Card(
+      item,
+      //handleLikeClickBody,
+      '#card-template');
+    const cardElement = card.generate(userId);
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
@@ -54,7 +57,15 @@ function initializePage() {
       console.log(err);
     });
 };
-/*
+
+/* function handleLikeClickBody(cardElement){
+  if (cardElementbtnLike.classList.contains('elements__button_active')) {
+    cardElement.removeLikeCard();
+  } else {
+    cardElement.likeCard();
+  }
+} */
+
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
   openPopup(popupAvatarEdit);
@@ -109,7 +120,7 @@ formAddPlace.addEventListener('submit', (evt) => {
   handleAddCardFormSubmit(evt);
 })
 
- */
+
 /* ..рабочий, старая версия
   formAddPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
