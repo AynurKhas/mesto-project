@@ -52,8 +52,18 @@ export class Card {
     }
   }
 
+  addLike(qty){
+    this._cardLikeCounter.textContent = qty;
+    this._btnlike.classList.add('elements__button_active');
+  }
+
+  removeLike(qty){
+    this._cardLikeCounter.textContent = qty;
+    this._btnlike.classList.remove('elements__button_active');
+  }
+
   deleteCard(){
-    this._element.querySelector('.elements__item-image').remove();
+    this._element.closest('.elements__list-item').remove();
   }
 
   _setEventListeners() {

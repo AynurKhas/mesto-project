@@ -69,16 +69,14 @@ function initializePage() {
 function handleLikeClickBody(cardElement,status) {
   if (status) {
     api.deleteLike(cardElement._id).then((res) => {
-      cardElement._cardLikeCounter.textContent = res.likes.length;
-      cardElement._btnlike.classList.remove('elements__button_active');
+      cardElement.removeLike(res.likes.length);
     })
       .catch((err) => {
         console.log((err));
       });
   } else {
     api.addLike(cardElement._id).then((res) => {
-      cardElement._cardLikeCounter.textContent = res.likes.length;
-      cardElement._btnlike.classList.add('elements__button_active');
+      cardElement.addLike(res.likes.length);
     })
       .catch((err) => {
         console.log((err));
