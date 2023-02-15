@@ -76,6 +76,11 @@ export class Card {
     if (this._checkMyLikes(userId)) {
       this._btnlike.classList.add('elements__button_active');
     }
+        //активируем кнопку удалений карточки
+    if (userId !== this._ownerId) {
+      this._cardTrashButton.classList.add('elements__trash_disabled');
+      this._cardTrashButton.setAttribute("disabled", true);
+    }
     this._setEventListeners();
 
     return this._element;
