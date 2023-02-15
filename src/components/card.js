@@ -52,6 +52,10 @@ export class Card {
     }
   }
 
+  deleteCard(){
+    this._element.querySelector('.elements__item-image').remove();
+  }
+
   _setEventListeners() {
     this._btnlike.addEventListener('click', () => {
       this._handleLikeClick(this,this._isActiveLike());

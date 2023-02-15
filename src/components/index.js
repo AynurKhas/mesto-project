@@ -41,7 +41,7 @@ const cardList = new Section({
       }
     },
     handleLikeClickBody,
-    handleDeleteClick,
+    handleDeleteCardBody,
     '#card-template');
     const cardElement = card.generate(userId);
     cardList.setItem(cardElement);
@@ -84,6 +84,16 @@ function handleLikeClickBody(cardElement,status) {
         console.log((err));
       });
   }
+}
+
+function handleDeleteCardBody(cardElement){
+  api.deleteCard(cardElement._id)
+  .then(() => {
+    deleteCard();
+  })
+  .catch((err) => {
+    console.log((err));
+  });
 }
 
 //--------------------------------------------нажатие на аватар
