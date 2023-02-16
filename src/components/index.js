@@ -98,8 +98,24 @@ function handleDeleteCardBody(cardElement) {
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
   const popupAvatar = new PopupWithForm({
-    callbackSubmit: () => {
+    callbackSubmit: (formData) => {
+       console.log(formData);
+      /*
+      api.editAvatarFromServer(formData.value).then((result) => {
+        profileAvatar.src = result.avatar;
+      }) */
 
+
+      /* handleeditAvatarSubmit(evt);
+
+function handleeditAvatarSubmit(evt) {
+  function makeRequest() {
+    return api.editAvatarFromServer(formData.value).then((result) => {
+      profileAvatar.src = result.avatar;
+    })
+  }
+  handleSubmit(makeRequest, evt)
+} */
     }
   },
     popupAvatarEdit)
