@@ -55,8 +55,26 @@ export class PopupWithImage extends Popup {
 }
 
 export class PopupWithForm extends Popup {
-  constructor(selector) {
+  constructor({callbackSubmit},selector) {
     super(selector);
+    this._callbackSubmit = callbackSubmit;
+  }
+
+  _getInputValues() {
+
+  }
+
+  setEventListeners() {
+    this._selector.addEventListener('submit', (evt) => {
+      evt.preventDefault()
+
+    })
+    super.setEventListeners();
+  }
+
+  close() {
+    super.close();
+    // this._callbackSubmit.reset();
   }
 }
 
