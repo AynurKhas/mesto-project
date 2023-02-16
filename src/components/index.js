@@ -27,6 +27,7 @@ import {
 } from "./constants";
 import { handleSubmit } from "./submit.js";
 import { Section } from "./Section.js";
+import { UserInfo } from './UserInfo';
 
 export let userId;
 // let cardData;
@@ -43,21 +44,26 @@ const cardList = new Section({
     handleLikeClickBody,
     handleDeleteCardBody,
     '#card-template');
-    const cardElement = card.generate(userId);
+    const cardElement = card.generate(user.id);
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
 
+const user = new UserInfo( {
+  name: '.profile__name', 
+  prof: '.profile__profession', 
+  avatar: '.profile__avatar'
+},
+setUserInfoBody,
+setAvatarBody
+   );
 //--------------------------------------инициализация страницы
 function initializePage() {
 
   // ОбЪединенный запрос с сервера(инфо о профиле и карточки)
   Promise.all([api.initProfile(), api.getInitialCards()])
     .then(([userData, cards]) => {
-      userName.textContent = userData.name;
-      userProfession.textContent = userData.about;
-      profileAvatar.src = userData.avatar;
-      userId = userData._id;
+      user.getUserInfo(userData.name,userData.about,userData.avatar,userData._id);
 
       cardList.renderItems(cards);
     })
@@ -99,8 +105,48 @@ avatarEdit.addEventListener('click', () => {
   const popupAvatar = new PopupWithForm(popupAvatarEdit)
   // openPopup(popupAvatarEdit);
   popupAvatar.open();
-  сheckInputs(formAvatarEdit, validationObject);
+  //сheckInputs(formAvatarEdit, validationObject);
 })
+
+btnProfileAdd.addEventListener('click', () => {
+  openPopup(popupProfileEdit);   
+  formUserName.value = user.name;
+  formUserProfession.value = user.prof;
+  //сheckInputs(formAddProfile, validationObject);
+});
+
+function setUserInfoBody(name,prof){
+  return api.profileEditing(name, prof).then((userData) => {
+    user.putUserInfo(userData.name,userData.about);
+  });
+}
+
+function setAvatarBody(avatar){
+  return api.editAvatarFromServer(avatar).then((data) => {
+    user.putAvatar(data.avatar);
+  });
+}
+
+formAddProfile.addEventListener('submit', (evt) => {
+  handleProfileFormSubmit(evt);
+})
+function handleProfileFormSubmit(evt) {
+  function makeRequest() {
+    return user.setUserInfo(formUserName.value, formUserProfession.value);
+  }
+  handleSubmit(makeRequest, evt);
+}
+
+formAvatarEdit.addEventListener('submit', (evt) => {
+  handleeditAvatarSubmit(evt);
+})
+
+function handleeditAvatarSubmit(evt) {
+  function makeRequest() {
+    return user.setAvatar(formAvatarEditInput.value);
+  }
+  handleSubmit(makeRequest, evt)
+}
 /*
 //--------------------------------------------сохранение нового аватара профиля
 formAvatarEdit.addEventListener('submit', (evt) => {

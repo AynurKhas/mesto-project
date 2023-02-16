@@ -19,6 +19,7 @@ export function handleSubmit(request, evt, loadingText = "Сохранение..
   const initialText = submitButton.textContent;
   // изменяем текст кнопки до вызова запроса
   renderLoading(true, submitButton, initialText, loadingText);
+ 
   request()
     .then(() => {
       // любую форму нужно очищать после успешного ответа от сервера
