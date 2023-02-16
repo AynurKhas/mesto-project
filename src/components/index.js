@@ -27,6 +27,7 @@ import {
 } from "./constants";
 import { handleSubmit } from "./submit.js";
 import { Section } from "./Section.js";
+import { FormValidator } from "./FormValidator.js";
 import { UserInfo } from './UserInfo';
 
 export let userId;
@@ -50,8 +51,8 @@ const cardList = new Section({
 }, elementsContainer);
 
 const user = new UserInfo( {
-  name: '.profile__name', 
-  prof: '.profile__profession', 
+  name: '.profile__name',
+  prof: '.profile__profession',
   avatar: '.profile__avatar'
 },
 setUserInfoBody,
@@ -72,7 +73,7 @@ function initializePage() {
     });
 };
 
-function handleLikeClickBody(cardElement,status) {
+function handleLikeClickBody(cardElement, status) {
   if (status) {
     api.deleteLike(cardElement._id).then((res) => {
       cardElement.removeLike(res.likes.length);
@@ -90,26 +91,49 @@ function handleLikeClickBody(cardElement,status) {
   }
 }
 
-function handleDeleteCardBody(cardElement){
+function handleDeleteCardBody(cardElement) {
   api.deleteCard(cardElement._id)
-  .then(() => {
-    cardElement.deleteCard();
-  })
-  .catch((err) => {
-    console.log((err));
-  });
+    .then(() => {
+      cardElement.deleteCard();
+    })
+    .catch((err) => {
+      console.log((err));
+    });
 }
 
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
-  const popupAvatar = new PopupWithForm(popupAvatarEdit)
-  // openPopup(popupAvatarEdit);
+  const popupAvatar = new PopupWithForm({
+    callbackSubmit: (formData) => {
+       console.log(formData);
+      /*
+      api.editAvatarFromServer(formData.value).then((result) => {
+        profileAvatar.src = result.avatar;
+      }) */
+
+
+      /* handleeditAvatarSubmit(evt);
+
+function handleeditAvatarSubmit(evt) {
+  function makeRequest() {
+    return api.editAvatarFromServer(formData.value).then((result) => {
+      profileAvatar.src = result.avatar;
+    })
+  }
+  handleSubmit(makeRequest, evt)
+} */
+    }
+  },
+    popupAvatarEdit)
   popupAvatar.open();
-  //сheckInputs(formAvatarEdit, validationObject);
+  const popupAvatarFormValidator = new FormValidator({ data: validationObject }, popupAvatarEdit);
+  popupAvatarFormValidator.enableValidation();
+
+  // //сheckInputs(formAvatarEdit, validationObject);
 })
 
 btnProfileAdd.addEventListener('click', () => {
-  openPopup(popupProfileEdit);   
+  openPopup(popupProfileEdit);
   formUserName.value = user.name;
   formUserProfession.value = user.prof;
   //сheckInputs(formAddProfile, validationObject);
@@ -161,21 +185,36 @@ function handleeditAvatarSubmit(evt) {
   }
   handleSubmit(makeRequest, evt)
 }
+*/
 
 // ------------------------------------------- Кнопка Редактирование профиля
 btnProfileAdd.addEventListener('click', () => {
-  openPopup(popupProfileEdit);
-  formUserName.value = userName.textContent;
-  formUserProfession.value = userProfession.textContent;
-  сheckInputs(formAddProfile, validationObject);
+  const popupClassProfileEdit = new PopupWithForm({
+    callbackSubmit: () => {
+
+    }
+  }, popupProfileEdit);
+  popupClassProfileEdit.open();
+  const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
+  popupProfileEditFormValidator.enableValidation();
+  // formUserName.value = userName.textContent;
+  // formUserProfession.value = userProfession.textContent;
+  // сheckInputs(formAddProfile, validationObject);
 });
 
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
-  openPopup(popupCardAdd);
-  сheckInputs(formAddPlace, validationObject);
-});
+  const popupAddPlace = new PopupWithForm({
+    callbackSubmit: () => {
 
+    }
+  }, popupCardAdd);
+  popupAddPlace.open();
+  const popupAddPlaceFormValidator = new FormValidator({ data: validationObject }, popupCardAdd);
+  popupAddPlaceFormValidator.enableValidation();
+  // сheckInputs(formAddPlace, validationObject);
+});
+/*
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 
 formAddProfile.addEventListener('submit', (evt) => {
@@ -227,8 +266,7 @@ function handleAddCardFormSubmit(evt) {
 }
 
 //---------------------
-
-enableValidation(validationObject); */
+*/
 initializePage();
 
 

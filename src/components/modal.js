@@ -14,7 +14,7 @@ export class Popup {
   }
 
   setEventListeners() {
-    this._selector.addEventListener('click', (evt) => {
+    this._selector.addEventListener('mousedown', (evt) => {
       if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
         this.close();
       }
@@ -55,8 +55,32 @@ export class PopupWithImage extends Popup {
 }
 
 export class PopupWithForm extends Popup {
-  constructor(selector) {
+  constructor({ callbackSubmit }, selector) {
     super(selector);
+    this._callbackSubmit = callbackSubmit;
+  }
+
+  _getInputValues() {
+    this._inputList = this._selector.querySelectorAll('.form__item');
+    this._formValues = {};
+    this._inputList.forEach(input => {
+      this._formValues[input.name] = input.value;
+    });
+
+    return this._formValues;
+  }
+
+  setEventListeners() {
+    this._selector.addEventListener('submit', (evt) => {
+      evt.preventDefault()
+      this._callbackSubmit(this._getInputValues());
+    })
+    super.setEventListeners();
+  }
+
+  close() {
+    super.close();
+    // this._callbackSubmit.reset();
   }
 }
 
