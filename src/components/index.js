@@ -42,29 +42,29 @@ const cardList = new Section({
         popupCardImage.open();
       }
     },
-    handleLikeClickBody,
-    handleDeleteCardBody,
-    '#card-template');
+      handleLikeClickBody,
+      handleDeleteCardBody,
+      '#card-template');
     const cardElement = card.generate(user.id);
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
 
-const user = new UserInfo( {
+const user = new UserInfo({
   name: '.profile__name',
   prof: '.profile__profession',
   avatar: '.profile__avatar'
 },
-setUserInfoBody,
-setAvatarBody
-   );
+  setUserInfoBody,
+  setAvatarBody
+);
 //--------------------------------------инициализация страницы
 function initializePage() {
 
   // ОбЪединенный запрос с сервера(инфо о профиле и карточки)
   Promise.all([api.initProfile(), api.getInitialCards()])
     .then(([userData, cards]) => {
-      user.getUserInfo(userData.name,userData.about,userData.avatar,userData._id);
+      user.getUserInfo(userData.name, userData.about, userData.avatar, userData._id);
 
       cardList.renderItems(cards);
     })
@@ -103,27 +103,29 @@ function handleDeleteCardBody(cardElement) {
 
 //--------------------------------------------нажатие на аватар
 avatarEdit.addEventListener('click', () => {
-  const popupAvatar = new PopupWithForm({
-    callbackSubmit: (formData) => {
-       console.log(formData);
-      /*
-      api.editAvatarFromServer(formData.value).then((result) => {
-        profileAvatar.src = result.avatar;
-      }) */
+  const popupAvatar = new PopupWithForm(
+    /*     callbackSubmit: (formData) => {
+           console.log(formData); */
+    handleEditAvatarSubmit,
+
+    /*
+    api.editAvatarFromServer(formData.value).then((result) => {
+      profileAvatar.src = result.avatar;
+    }) */
 
 
-      /* handleeditAvatarSubmit(evt);
+    /* handleeditAvatarSubmit(evt);
 
 function handleeditAvatarSubmit(evt) {
-  function makeRequest() {
-    return api.editAvatarFromServer(formData.value).then((result) => {
-      profileAvatar.src = result.avatar;
-    })
-  }
-  handleSubmit(makeRequest, evt)
+function makeRequest() {
+  return api.editAvatarFromServer(formData.value).then((result) => {
+    profileAvatar.src = result.avatar;
+  })
+}
+handleSubmit(makeRequest, evt)
 } */
-    }
-  },
+
+
     popupAvatarEdit)
   popupAvatar.open();
   const popupAvatarFormValidator = new FormValidator({ data: validationObject }, popupAvatarEdit);
@@ -132,28 +134,28 @@ function handleeditAvatarSubmit(evt) {
   // //сheckInputs(formAvatarEdit, validationObject);
 })
 
-btnProfileAdd.addEventListener('click', () => {
+/* btnProfileAdd.addEventListener('click', () => {
   openPopup(popupProfileEdit);
   formUserName.value = user.name;
   formUserProfession.value = user.prof;
   //сheckInputs(formAddProfile, validationObject);
-});
+}); */
 
-function setUserInfoBody(name,prof){
+function setUserInfoBody(name, prof) {
   return api.profileEditing(name, prof).then((userData) => {
-    user.putUserInfo(userData.name,userData.about);
+    user.putUserInfo(userData.name, userData.about);
   });
 }
 
-function setAvatarBody(avatar){
+function setAvatarBody(avatar) {
   return api.editAvatarFromServer(avatar).then((data) => {
     user.putAvatar(data.avatar);
   });
 }
 
-formAddProfile.addEventListener('submit', (evt) => {
+/* formAddProfile.addEventListener('submit', (evt) => {
   handleProfileFormSubmit(evt);
-})
+}) */
 function handleProfileFormSubmit(evt) {
   function makeRequest() {
     return user.setUserInfo(formUserName.value, formUserProfession.value);
@@ -161,11 +163,11 @@ function handleProfileFormSubmit(evt) {
   handleSubmit(makeRequest, evt);
 }
 
-formAvatarEdit.addEventListener('submit', (evt) => {
+/* formAvatarEdit.addEventListener('submit', (evt) => {
   handleeditAvatarSubmit(evt);
-})
+}) */
 
-function handleeditAvatarSubmit(evt) {
+function handleEditAvatarSubmit(evt) {
   function makeRequest() {
     return user.setAvatar(formAvatarEditInput.value);
   }
@@ -189,12 +191,13 @@ function handleeditAvatarSubmit(evt) {
 
 // ------------------------------------------- Кнопка Редактирование профиля
 btnProfileAdd.addEventListener('click', () => {
-  const popupClassProfileEdit = new PopupWithForm({
-    callbackSubmit: () => {
+  const popupClassProfileEdit = new PopupWithForm(
+    handleProfileFormSubmit,
+    popupProfileEdit);
 
-    }
-  }, popupProfileEdit);
   popupClassProfileEdit.open();
+  formUserName.value = user.name;
+  formUserProfession.value = user.prof;
   const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
   popupProfileEditFormValidator.enableValidation();
   // formUserName.value = userName.textContent;

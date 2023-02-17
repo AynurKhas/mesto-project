@@ -25,7 +25,7 @@ export function handleSubmit(request, evt, loadingText = "Сохранение..
       // любую форму нужно очищать после успешного ответа от сервера
       // а так же `reset` может запустить деактивацию кнопки сабмита (смотрите в `validate.js`)
       evt.target.reset();
-      closePopup();
+      //closePopup();
     })
     .catch((err) => {
       // в каждом запросе нужно ловить ошибку

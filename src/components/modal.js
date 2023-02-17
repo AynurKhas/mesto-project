@@ -55,7 +55,7 @@ export class PopupWithImage extends Popup {
 }
 
 export class PopupWithForm extends Popup {
-  constructor({ callbackSubmit }, selector) {
+  constructor( callbackSubmit , selector) {
     super(selector);
     this._callbackSubmit = callbackSubmit;
   }
@@ -72,8 +72,9 @@ export class PopupWithForm extends Popup {
 
   setEventListeners() {
     this._selector.addEventListener('submit', (evt) => {
-      evt.preventDefault()
-      this._callbackSubmit(this._getInputValues());
+      evt.preventDefault();
+      this._callbackSubmit(evt);
+      this.close();
     })
     super.setEventListeners();
   }
