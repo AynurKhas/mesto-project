@@ -45,7 +45,7 @@ const cardList = new Section({
       handleLikeClickBody,
       handleDeleteCardBody,
       '#card-template');
-    const cardElement = card.generate(user.id);
+    const cardElement = card.generate(user.getUserInfo().id);
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
@@ -64,7 +64,9 @@ function initializePage() {
   // ОбЪединенный запрос с сервера(инфо о профиле и карточки)
   Promise.all([api.initProfile(), api.getInitialCards()])
     .then(([userData, cards]) => {
-      user.getUserInfo(userData.name, userData.about, userData.avatar, userData._id);
+      user.initUserInfo(userData.name, userData.about, userData.avatar, userData._id);
+      user.putUserInfo(userData.name, userData.about);
+      user.putAvatar(userData.avatar);
 
       cardList.renderItems(cards);
     })
@@ -156,9 +158,9 @@ function setAvatarBody(avatar) {
 /* formAddProfile.addEventListener('submit', (evt) => {
   handleProfileFormSubmit(evt);
 }) */
-function handleProfileFormSubmit(evt) {
+function handleProfileFormSubmit(evt,data) {
   function makeRequest() {
-    return user.setUserInfo(formUserName.value, formUserProfession.value);
+    return user.setUserInfo(data['name'], data['profession']);
   }
   handleSubmit(makeRequest, evt);
 }
@@ -196,8 +198,8 @@ btnProfileAdd.addEventListener('click', () => {
     popupProfileEdit);
 
   popupClassProfileEdit.open();
-  formUserName.value = user.name;
-  formUserProfession.value = user.prof;
+  formUserName.value = user.getUserInfo().name;
+  formUserProfession.value = user.getUserInfo().prof;
   const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
   popupProfileEditFormValidator.enableValidation();
   // formUserName.value = userName.textContent;
