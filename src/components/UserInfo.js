@@ -22,23 +22,18 @@ export class UserInfo {
     }
 
     initUserInfo(name, prof, avatar, id) {
-/*       this.putUserInfo(name,prof); */
       this._name = name;
       this._prof = prof;
       this._avatar = avatar;
       this._id = id;
-/*       document.querySelector(this._selectorAvatar).src = this._avatar; */
     }
 
     putUserInfo(name, prof) {
-/*       this._name = name;
-      this._prof = prof; */
       document.querySelector(this._selectorName).textContent = name;
       document.querySelector(this._selectorProf).textContent = prof;
     }
 
     putAvatar(avatar) {
-      /* this.avatar = avatar; */
       document.querySelector(this._selectorAvatar).src = avatar;
     }
     

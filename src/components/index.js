@@ -75,6 +75,7 @@ function initializePage() {
     });
 };
 
+//-------------CallBack клика лайка, взаимодействие с api
 function handleLikeClickBody(cardElement, status) {
   if (status) {
     api.deleteLike(cardElement._id).then((res) => {
@@ -92,7 +93,7 @@ function handleLikeClickBody(cardElement, status) {
       });
   }
 }
-
+//-------------CallBack клика удаления карточки, взаимодействие с api
 function handleDeleteCardBody(cardElement) {
   api.deleteCard(cardElement._id)
     .then(() => {
@@ -103,7 +104,35 @@ function handleDeleteCardBody(cardElement) {
     });
 }
 
-//--------------------------------------------нажатие на аватар
+// ------------------------------------------- Кнопка Редактирование профиля
+btnProfileAdd.addEventListener('click', () => {
+  const popupClassProfileEdit = new PopupWithForm(
+    handleProfileFormSubmit,
+    popupProfileEdit);
+
+  popupClassProfileEdit.open();
+  formUserName.value = user.getUserInfo().name;
+  formUserProfession.value = user.getUserInfo().prof;
+  const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
+  popupProfileEditFormValidator.enableValidation();
+  // formUserName.value = userName.textContent;
+  // formUserProfession.value = userProfession.textContent;
+  // сheckInputs(formAddProfile, validationObject);
+});
+
+function handleProfileFormSubmit(evt,data) {
+  function makeRequest() {
+    return user.setUserInfo(data['name'], data['profession']);
+  }
+  handleSubmit(makeRequest, evt);
+}
+
+function setUserInfoBody(name, prof) {
+  return api.profileEditing(name, prof).then((userData) => {
+    user.putUserInfo(userData.name, userData.about);
+  });
+}
+//----------------------Кнопка изменения аватара----------------------------
 avatarEdit.addEventListener('click', () => {
   const popupAvatar = new PopupWithForm(
     /*     callbackSubmit: (formData) => {
@@ -136,17 +165,11 @@ handleSubmit(makeRequest, evt)
   // //сheckInputs(formAvatarEdit, validationObject);
 })
 
-/* btnProfileAdd.addEventListener('click', () => {
-  openPopup(popupProfileEdit);
-  formUserName.value = user.name;
-  formUserProfession.value = user.prof;
-  //сheckInputs(formAddProfile, validationObject);
-}); */
-
-function setUserInfoBody(name, prof) {
-  return api.profileEditing(name, prof).then((userData) => {
-    user.putUserInfo(userData.name, userData.about);
-  });
+function handleEditAvatarSubmit(evt,data) {
+  function makeRequest() {
+    return user.setAvatar(data['input-avatarEdit']);
+  }
+  handleSubmit(makeRequest, evt)
 }
 
 function setAvatarBody(avatar) {
@@ -154,58 +177,6 @@ function setAvatarBody(avatar) {
     user.putAvatar(data.avatar);
   });
 }
-
-/* formAddProfile.addEventListener('submit', (evt) => {
-  handleProfileFormSubmit(evt);
-}) */
-function handleProfileFormSubmit(evt,data) {
-  function makeRequest() {
-    return user.setUserInfo(data['name'], data['profession']);
-  }
-  handleSubmit(makeRequest, evt);
-}
-
-/* formAvatarEdit.addEventListener('submit', (evt) => {
-  handleeditAvatarSubmit(evt);
-}) */
-
-function handleEditAvatarSubmit(evt,data) {
-  function makeRequest() {
-    return user.setAvatar(data['input-avatarEdit']);
-  }
-  handleSubmit(makeRequest, evt)
-}
-/*
-//--------------------------------------------сохранение нового аватара профиля
-formAvatarEdit.addEventListener('submit', (evt) => {
-  handleeditAvatarSubmit(evt);
-})
-
-function handleeditAvatarSubmit(evt) {
-  function makeRequest() {
-    return api.editAvatarFromServer(formAvatarEditInput.value).then((result) => {
-      profileAvatar.src = result.avatar;
-    })
-  }
-  handleSubmit(makeRequest, evt)
-}
-*/
-
-// ------------------------------------------- Кнопка Редактирование профиля
-btnProfileAdd.addEventListener('click', () => {
-  const popupClassProfileEdit = new PopupWithForm(
-    handleProfileFormSubmit,
-    popupProfileEdit);
-
-  popupClassProfileEdit.open();
-  formUserName.value = user.getUserInfo().name;
-  formUserProfession.value = user.getUserInfo().prof;
-  const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
-  popupProfileEditFormValidator.enableValidation();
-  // formUserName.value = userName.textContent;
-  // formUserProfession.value = userProfession.textContent;
-  // сheckInputs(formAddProfile, validationObject);
-});
 
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
