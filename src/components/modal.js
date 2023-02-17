@@ -5,35 +5,30 @@ export class Popup {
     this._selector = selector;
   }
 
-  _handleEscClose() {
-    document.addEventListener('keydown', (evt) => {
-      if (evt.key === 'Escape') {
-        this.close();
-      }
-    })
+  _handleEscClose = (evt) => {
+    if (evt.key === 'Escape') {
+      this.close();
+    }
   }
 
-  setEventListeners() {
-    this._selector.addEventListener('mousedown', (evt) => {
-      if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
-        this.close();
-      }
-    })
+  setEventListeners = (evt) => {
+    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+      this.close();
+    }
   }
 
   open() {
     this._selector.classList.add('popup_opened');
-
-    this.setEventListeners();
-    this._handleEscClose();
+    document.addEventListener('keydown', this._handleEscClose);
+    this._selector.addEventListener('mousedown', this.setEventListeners);
   }
 
   close() {
     const popupOpen = document.querySelector('.popup_opened');
     if (popupOpen) {
       popupOpen.classList.remove('popup_opened');
-      document.removeEventListener('keydown', this._handleEscClose());    // !!!
-      popupOpen.removeEventListener('mousedown', this.setEventListeners()); // !!!
+      document.removeEventListener('keydown', this._handleEscClose);
+      this._selector.removeEventListener('mousedown', this.setEventListeners);
     }
   }
 }
@@ -55,7 +50,7 @@ export class PopupWithImage extends Popup {
 }
 
 export class PopupWithForm extends Popup {
-  constructor( callbackSubmit , selector) {
+  constructor(callbackSubmit, selector) {
     super(selector);
     this._callbackSubmit = callbackSubmit;
   }
@@ -70,24 +65,31 @@ export class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  _callbackForSetEventListeners = (evt) => {
+    evt.preventDefault();
+    this._callbackSubmit(evt, this._getInputValues());
+    this.close();
+  };
+
   setEventListeners() {
-    this._selector.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._callbackSubmit(evt,this._getInputValues());
-      this.close();
-    })
-    super.setEventListeners();
+    this._selector.addEventListener('submit', this._callbackForSetEventListeners);
+  }
+
+  open() {
+    super.open();
+    this._selector.addEventListener('submit', this._callbackForSetEventListeners);
+    // this.setEventListeners();
   }
 
   close() {
     super.close();
-    // this._callbackSubmit.reset();
+    this._selector.removeEventListener('submit', this._callbackForSetEventListeners);
   }
 }
 
 // ___________________________________________________________________________
 
-
+/*
 // ------------------------------------------- Функция открытия
 export function openPopup(item) {
   item.classList.add('popup_opened');
@@ -118,3 +120,4 @@ function handleEscape(evt) {
     closePopup();
   }
 }
+ */

@@ -120,7 +120,7 @@ btnProfileAdd.addEventListener('click', () => {
   // сheckInputs(formAddProfile, validationObject);
 });
 
-function handleProfileFormSubmit(evt,data) {
+function handleProfileFormSubmit(evt, data) {
   function makeRequest() {
     return user.setUserInfo(data['name'], data['profession']);
   }
@@ -135,28 +135,7 @@ function setUserInfoBody(name, prof) {
 //----------------------Кнопка изменения аватара----------------------------
 avatarEdit.addEventListener('click', () => {
   const popupAvatar = new PopupWithForm(
-    /*     callbackSubmit: (formData) => {
-           console.log(formData); */
     handleEditAvatarSubmit,
-
-    /*
-    api.editAvatarFromServer(formData.value).then((result) => {
-      profileAvatar.src = result.avatar;
-    }) */
-
-
-    /* handleeditAvatarSubmit(evt);
-
-function handleeditAvatarSubmit(evt) {
-function makeRequest() {
-  return api.editAvatarFromServer(formData.value).then((result) => {
-    profileAvatar.src = result.avatar;
-  })
-}
-handleSubmit(makeRequest, evt)
-} */
-
-
     popupAvatarEdit)
   popupAvatar.open();
   const popupAvatarFormValidator = new FormValidator({ data: validationObject }, popupAvatarEdit);
@@ -165,7 +144,7 @@ handleSubmit(makeRequest, evt)
   // //сheckInputs(formAvatarEdit, validationObject);
 })
 
-function handleEditAvatarSubmit(evt,data) {
+function handleEditAvatarSubmit(evt, data) {
   function makeRequest() {
     return user.setAvatar(data['input-avatarEdit']);
   }
