@@ -167,9 +167,9 @@ function handleProfileFormSubmit(evt) {
   handleeditAvatarSubmit(evt);
 }) */
 
-function handleEditAvatarSubmit(evt) {
+function handleEditAvatarSubmit(evt,data) {
   function makeRequest() {
-    return user.setAvatar(formAvatarEditInput.value);
+    return user.setAvatar(data['input-avatarEdit']);
   }
   handleSubmit(makeRequest, evt)
 }
