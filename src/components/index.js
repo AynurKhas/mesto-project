@@ -159,16 +159,36 @@ function setAvatarBody(avatar) {
 
 // ------------------------------------------- Кнопка добавления места
 btnPlaceAdd.addEventListener('click', () => {
-  const popupAddPlace = new PopupWithForm({
-    callbackSubmit: () => {
-
-    }
-  }, popupCardAdd);
+  const popupAddPlace = new PopupWithForm(
+    handlebtnPlaceAddSubmit,
+    popupCardAdd);
   popupAddPlace.open();
   const popupAddPlaceFormValidator = new FormValidator({ data: validationObject }, popupCardAdd);
   popupAddPlaceFormValidator.enableValidation();
-  // сheckInputs(formAddPlace, validationObject);
+
 });
+function handlebtnPlaceAddSubmit(evt, data) {
+  function makeRequest() {
+    return api.addCardtToServer(data['place'], data['link-place']).then((result) => {
+      const card = new Card({
+        data: result,
+        handleCardClick: (data) => {
+          const popupCardImage = new PopupWithImage(data, popupCard);
+          popupCardImage.open();
+        }
+      },
+        handleLikeClickBody,
+        handleDeleteCardBody,
+        '#card-template');
+      const cardElement = card.generate(user.getUserInfo().id);
+      cardList.setItem(cardElement);
+    })
+    .catch((err) => {
+      console.log((err));
+    });
+  }
+  handleSubmit(makeRequest, evt);
+}
 /*
 // ------------------------------------------- Кнопка сохранить редактирования профиля
 
