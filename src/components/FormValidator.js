@@ -71,6 +71,17 @@ export class FormValidator {
     });
 
     inputList.forEach((inputElement) => {
+
+      const meaning = inputElement.value === "";
+    if (!meaning) {
+      this._hideInputError(formElement, inputElement);
+      this._checkInputValidity(formElement, inputElement);
+    } else {
+      this._checkInputValidity(formElement, inputElement);
+      this._hideInputError(formElement, inputElement);
+    }
+    this._toggleButtonState(inputList, buttonElement);
+
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(formElement, inputElement);
         // чтобы проверять его при изменении любого из полей

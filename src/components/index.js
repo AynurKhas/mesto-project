@@ -1,8 +1,7 @@
 import '../pages/index.css';
-import { initialCards, addCard, renderCard, Card } from "./card.js";
-import { openPopup, PopupWithImage, PopupWithForm } from "./modal.js";
-import { enableValidation, сheckInputs } from "./validate.js";
-import { initProfile, getInitialCards, profileEditing, addCardtToServer, editAvatarFromServer, api } from "./api.js"
+import { Card } from "./card.js";
+import { PopupWithImage, PopupWithForm } from "./modal.js";
+import { api } from "./api.js"
 import {
   validationObject,
   popupProfileEdit,
@@ -10,18 +9,9 @@ import {
   btnProfileAdd,
   formUserName,
   formUserProfession,
-  userName,
-  userProfession,
   btnPlaceAdd,
-  formPlace,
-  formLinkPlace,
-  formAddProfile,
-  formAddPlace,
-  profileAvatar,
   avatarEdit,
   popupAvatarEdit,
-  formAvatarEdit,
-  formAvatarEditInput,
   elementsContainer,
   popupCard
 } from "./constants";
@@ -30,8 +20,7 @@ import { Section } from "./Section.js";
 import { FormValidator } from "./FormValidator.js";
 import { UserInfo } from './UserInfo';
 
-export let userId;
-// let cardData;
+// export let userId;
 
 const cardList = new Section({
   renderer: (item) => {
@@ -115,9 +104,6 @@ btnProfileAdd.addEventListener('click', () => {
   formUserProfession.value = user.getUserInfo().prof;
   const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
   popupProfileEditFormValidator.enableValidation();
-  // formUserName.value = userName.textContent;
-  // formUserProfession.value = userProfession.textContent;
-  // сheckInputs(formAddProfile, validationObject);
 });
 
 function handleProfileFormSubmit(evt, data) {
@@ -140,8 +126,6 @@ avatarEdit.addEventListener('click', () => {
   popupAvatar.open();
   const popupAvatarFormValidator = new FormValidator({ data: validationObject }, popupAvatarEdit);
   popupAvatarFormValidator.enableValidation();
-
-  // //сheckInputs(formAvatarEdit, validationObject);
 })
 
 function handleEditAvatarSubmit(evt, data) {
@@ -189,59 +173,7 @@ function handlebtnPlaceAddSubmit(evt, data) {
   }
   handleSubmit(makeRequest, evt);
 }
-/*
-// ------------------------------------------- Кнопка сохранить редактирования профиля
 
-formAddProfile.addEventListener('submit', (evt) => {
-  handleProfileFormSubmit(evt);
-})
-function handleProfileFormSubmit(evt) {
-  function makeRequest() {
-    return api.profileEditing(formUserName.value, formUserProfession.value).then((userData) => {
-      userName.textContent = userData.name;
-      userProfession.textContent = userData.about;
-    });
-  }
-  handleSubmit(makeRequest, evt);
-}
-
-// ------------------------------------------- Добавление Места по кнопке +
-formAddPlace.addEventListener('submit', (evt) => {
-  handleAddCardFormSubmit(evt);
-})
-
-
-/* ..рабочий, старая версия
-  formAddPlace.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  renderLoading(formAddPlace, true);
-  addCardtToServer(formPlace.value, formLinkPlace.value)
-    .then((result) => {
-      renderCard(addCard(result));
-      formAddPlace.reset();
-      closePopup();
-    })
-    .catch((err) => {
-      console.log((err));
-    })
-    .finally(() => {
-      renderLoading(formAddPlace, false);
-    });
-});
-*/
-/*
-function handleAddCardFormSubmit(evt) {
-  function makeRequest() {
-    return api.addCardtToServer(formPlace.value, formLinkPlace.value).then((result) => {
-      renderCard(addCard(result));
-      formAddPlace.reset();
-    })
-  }
-  handleSubmit(makeRequest, evt);
-}
-
-//---------------------
-*/
 initializePage();
 
 

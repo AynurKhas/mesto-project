@@ -1,4 +1,3 @@
-import { closePopup } from "./modal.js";
 // универсальная функцию управления текстом кнопки с 3 и 4 необязательными аргументами
 export function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...') {
   if (isLoading) {
