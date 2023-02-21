@@ -13,7 +13,9 @@ import {
   avatarEdit,
   popupAvatarEdit,
   elementsContainer,
-  popupCard
+  popupCard,
+  imagePopupCard, 
+  captionPopupCard
 } from "./constants";
 import { handleSubmit } from "./submit.js";
 import { Section } from "./Section.js";
@@ -27,7 +29,10 @@ const cardList = new Section({
     const card = new Card({
       data: item,
       handleCardClick: (data) => {
-        const popupCardImage = new PopupWithImage(data, popupCard);
+        const popupCardImage = new PopupWithImage(
+          data, 
+          popupCard,
+          {image: imagePopupCard,caption: captionPopupCard});
         popupCardImage.open();
       }
     },
@@ -157,7 +162,10 @@ function handlebtnPlaceAddSubmit(evt, data) {
       const card = new Card({
         data: result,
         handleCardClick: (data) => {
-          const popupCardImage = new PopupWithImage(data, popupCard);
+          const popupCardImage = new PopupWithImage(
+            data, 
+            popupCard,
+            {image: imagePopupCard,caption: captionPopupCard});
           popupCardImage.open();
         }
       },

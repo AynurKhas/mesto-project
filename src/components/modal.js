@@ -1,5 +1,3 @@
-import { imagePopupCard, captionPopupCard } from "./constants.js";
-
 export class Popup {
   constructor(selector) {
     this._selector = selector;
@@ -38,17 +36,18 @@ export class Popup {
 }
 
 export class PopupWithImage extends Popup {
-  constructor(data, selector) {
+  constructor(data, selector, selectorInputs) {
     super(selector);
     this._link = data.link;
     this._name = data.name;
-
+    this._inputSelectorImage = selectorInputs.image,
+    this._inputSelectorCaption = selectorInputs.caption
   }
 
   open() {
-    imagePopupCard.src = this._link;
-    imagePopupCard.alt = this._name;
-    captionPopupCard.textContent = this._name;
+    this._inputSelectorImage.src = this._link;
+    this._inputSelectorImage.alt = this._name;
+    this._inputSelectorCaption.textContent = this._name;
     super.open();
   }
 }
