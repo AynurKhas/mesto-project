@@ -23,23 +23,24 @@ import { FormValidator } from "./FormValidator.js";
 import { UserInfo } from './UserInfo';
 
 // export let userId;
+const card = (item) => new Card({
+  data: item,
+  handleCardClick: (data) => {
+    const popupCardImage = new PopupWithImage(
+      data, 
+      popupCard,
+      {image: imagePopupCard,caption: captionPopupCard});
+    popupCardImage.open();
+  }
+},
+  handleLikeClickBody,
+  handleDeleteCardBody,
+  '#card-template');
 
 const cardList = new Section({
   renderer: (item) => {
-    const card = new Card({
-      data: item,
-      handleCardClick: (data) => {
-        const popupCardImage = new PopupWithImage(
-          data, 
-          popupCard,
-          {image: imagePopupCard,caption: captionPopupCard});
-        popupCardImage.open();
-      }
-    },
-      handleLikeClickBody,
-      handleDeleteCardBody,
-      '#card-template');
-    const cardElement = card.generate(user.getUserInfo().id);
+    const newCard = card(item);
+    const cardElement = newCard.generate(user.getUserInfo().id);
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
@@ -159,20 +160,8 @@ btnPlaceAdd.addEventListener('click', () => {
 function handlebtnPlaceAddSubmit(evt, data) {
   function makeRequest() {
     return api.addCardtToServer(data['place'], data['link-place']).then((result) => {
-      const card = new Card({
-        data: result,
-        handleCardClick: (data) => {
-          const popupCardImage = new PopupWithImage(
-            data, 
-            popupCard,
-            {image: imagePopupCard,caption: captionPopupCard});
-          popupCardImage.open();
-        }
-      },
-        handleLikeClickBody,
-        handleDeleteCardBody,
-        '#card-template');
-      const cardElement = card.generate(user.getUserInfo().id);
+      const newCard = card(result);
+      const cardElement = newCard.generate(user.getUserInfo().id);
       cardList.setItem(cardElement);
     })
     .catch((err) => {
