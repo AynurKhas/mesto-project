@@ -1,7 +1,8 @@
 import '../pages/index.css';
-import { Card } from "./card.js";
-import { PopupWithImage, PopupWithForm } from "./modal.js";
-import { api } from "./api.js"
+import { Card } from "../components/card.js";
+import { PopupWithImage } from "../components/PopupWithImage";
+import { PopupWithForm } from "../components/PopupWithForm";
+import { api } from "../components/api.js"
 import {
   validationObject,
   popupProfileEdit,
@@ -14,20 +15,20 @@ import {
   popupAvatarEdit,
   elementsContainer,
   popupCard,
-  imagePopupCard, 
+  imagePopupCard,
   captionPopupCard
-} from "./constants";
-import { handleSubmit } from "./submit.js";
-import { Section } from "./Section.js";
-import { FormValidator } from "./FormValidator.js";
-import { UserInfo } from './UserInfo';
+} from "../components/constants";
+import { handleSubmit } from "../components/submit.js";
+import { Section } from "../components/Section.js";
+import { FormValidator } from "../components/FormValidator.js";
+import { UserInfo } from '../components/UserInfo';
 
 // export let userId;
 const card = (item) => new Card({
   data: item,
   handleCardClick: (data) => {
     const popupCardImage = new PopupWithImage(
-      data, 
+      data,
       popupCard,
       {image: imagePopupCard,caption: captionPopupCard});
     popupCardImage.open();
