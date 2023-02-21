@@ -13,3 +13,8 @@
 Visual studio code или друой редактор кода, наличие современного браузера.
 
 Ссылка на сайт: (https://aynurkhas.github.io/mesto-project)
+
+**Задание выполнено вместе с:**
+Руслан Буданов
+Budz@yandex.ru
+https://github.com/R2u1s
