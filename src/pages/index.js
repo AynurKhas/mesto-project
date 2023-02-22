@@ -53,10 +53,7 @@ const user = new UserInfo({
   name: '.profile__name',
   prof: '.profile__profession',
   avatar: '.profile__avatar'
-},
-  setUserInfoBody,
-  setAvatarBody
-);
+});
 //--------------------------------------инициализация страницы
 function initializePage() {
 
@@ -65,8 +62,8 @@ function initializePage() {
     .then(([userData, cards]) => {
       user.initUserInfo(userData.name, userData.about, userData.avatar, userData._id);
       infoObject = user.getUserInfo();
-      user.putUserInfo(infoObject.name, infoObject.profession);
-      user.putAvatar(infoObject.avatar);
+      user.setUserInfo(infoObject.name, infoObject.profession);
+      user.setAvatar(infoObject.avatar);
 
       cardList.renderItems(cards);
     })
@@ -120,16 +117,13 @@ btnProfileAdd.addEventListener('click', () => {
 
 function handleProfileFormSubmit(evt, data) {
   function makeRequest() {
-    return user.setUserInfo(data['name'], data['profession']);
+    return api.profileEditing(data['name'], data['profession']).then((userData) => {
+      user.setUserInfo(userData.name, userData.about);
+    });
   }
   handleSubmit(makeRequest, evt);
 }
 
-function setUserInfoBody(name, prof) {
-  return api.profileEditing(name, prof).then((userData) => {
-    user.putUserInfo(userData.name, userData.about);
-  });
-}
 //----------------------Кнопка изменения аватара----------------------------
 avatarEdit.addEventListener('click', () => {
   const popupAvatar = new PopupWithForm(
@@ -142,15 +136,11 @@ avatarEdit.addEventListener('click', () => {
 
 function handleEditAvatarSubmit(evt, data) {
   function makeRequest() {
-    return user.setAvatar(data['input-avatarEdit']);
-  }
-  handleSubmit(makeRequest, evt)
-}
-
-function setAvatarBody(avatar) {
-  return api.editAvatarFromServer(avatar).then((data) => {
-    user.putAvatar(data.avatar);
+    return api.editAvatarFromServer(data['input-avatarEdit']).then((data) => {
+    user.setAvatar(data.avatar);
   });
+}
+  handleSubmit(makeRequest, evt)
 }
 
 // ------------------------------------------- Кнопка добавления места
