@@ -119,6 +119,7 @@ function handleProfileFormSubmit(evt, data) {
   function makeRequest() {
     return api.profileEditing(data['name'], data['profession']).then((userData) => {
       user.setUserInfo(userData.name, userData.about);
+      infoObject = user.getUserInfo();
     });
   }
   handleSubmit(makeRequest, evt);
@@ -138,6 +139,7 @@ function handleEditAvatarSubmit(evt, data) {
   function makeRequest() {
     return api.editAvatarFromServer(data['input-avatarEdit']).then((data) => {
     user.setAvatar(data.avatar);
+    infoObject = user.getUserInfo();
   });
 }
   handleSubmit(makeRequest, evt)

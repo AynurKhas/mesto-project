@@ -33,9 +33,12 @@ export class UserInfo {
     setUserInfo(name, prof) {
       this._inputName.textContent = name;
       this._inputProf.textContent = prof;
+      this._name = name;
+      this._prof = prof;
     }
 
     setAvatar(avatar) {
       this._inputAvatar.src = avatar;
+      this._avatar = avatar;
     }
 }
