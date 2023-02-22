@@ -24,6 +24,9 @@ import { FormValidator } from "../components/FormValidator.js";
 import { UserInfo } from '../components/UserInfo';
 
 // export let userId;
+
+let infoObject = {};
+
 const card = (item) => new Card({
   data: item,
   handleCardClick: (data) => {
@@ -41,7 +44,7 @@ const card = (item) => new Card({
 const cardList = new Section({
   renderer: (item) => {
     const newCard = card(item);
-    const cardElement = newCard.generate(user.getUserInfo().id);
+    const cardElement = newCard.generate(infoObject.id);
     cardList.setItem(cardElement);
   }
 }, elementsContainer);
@@ -61,8 +64,9 @@ function initializePage() {
   Promise.all([api.initProfile(), api.getInitialCards()])
     .then(([userData, cards]) => {
       user.initUserInfo(userData.name, userData.about, userData.avatar, userData._id);
-      user.putUserInfo(userData.name, userData.about);
-      user.putAvatar(userData.avatar);
+      infoObject = user.getUserInfo();
+      user.putUserInfo(infoObject.name, infoObject.profession);
+      user.putAvatar(infoObject.avatar);
 
       cardList.renderItems(cards);
     })
@@ -107,8 +111,9 @@ btnProfileAdd.addEventListener('click', () => {
     popupProfileEdit);
 
   popupClassProfileEdit.open();
-  formUserName.value = user.getUserInfo().name;
-  formUserProfession.value = user.getUserInfo().prof;
+  popupClassProfileEdit.setInputValues(infoObject);
+/*   formUserName.value = infoObject.name; Исправил, надо удалить
+  formUserProfession.value = infoObject.prof; */
   const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
   popupProfileEditFormValidator.enableValidation();
 });
@@ -162,7 +167,7 @@ function handlebtnPlaceAddSubmit(evt, data) {
   function makeRequest() {
     return api.addCardtToServer(data['place'], data['link-place']).then((result) => {
       const newCard = card(result);
-      const cardElement = newCard.generate(user.getUserInfo().id);
+      const cardElement = newCard.generate(infoObject.id);
       cardList.setItem(cardElement);
     })
     .catch((err) => {

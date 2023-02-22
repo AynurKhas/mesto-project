@@ -26,11 +26,8 @@ export class Popup {
   }
 
   close() {
-    const popupOpen = document.querySelector('.popup_opened');
-    if (popupOpen) {
-      popupOpen.classList.remove('popup_opened');
+      this._selector.classList.remove('popup_opened');
       document.removeEventListener('keydown', this._handleEscClose);
       this._selector.removeEventListener('mousedown', this._handleOverlayBtnClose);
-    }
   }
 }

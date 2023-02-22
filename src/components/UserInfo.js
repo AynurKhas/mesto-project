@@ -5,6 +5,10 @@ export class UserInfo {
         this._selectorAvatar = data.avatar;
         this._setUserInfoCallBack = setUserInfoCallBack;
         this._setAvatarCallBack = setAvatarCallBack;
+        
+        this._inputName = document.querySelector(this._selectorName);
+        this._inputProf = document.querySelector(this._selectorProf);
+        this._inputAvatar = document.querySelector(this._selectorAvatar);
 
         this._name;
         this._prof;
@@ -15,7 +19,7 @@ export class UserInfo {
     getUserInfo() {
       return {
         name: this._name,
-        prof: this._prof,
+        profession: this._prof,
         avatar: this._avatar,
         id: this._id
       }
@@ -29,12 +33,14 @@ export class UserInfo {
     }
 
     putUserInfo(name, prof) {
-      document.querySelector(this._selectorName).textContent = name;
-      document.querySelector(this._selectorProf).textContent = prof;
+/*       document.querySelector(this._selectorName).textContent = name;
+      document.querySelector(this._selectorProf).textContent = prof; */
+      this._inputName.textContent = name;
+      this._inputProf.textContent = prof;
     }
 
     putAvatar(avatar) {
-      document.querySelector(this._selectorAvatar).src = avatar;
+      this._inputAvatar.src = avatar;
     }
     
     setUserInfo(name,prof) {

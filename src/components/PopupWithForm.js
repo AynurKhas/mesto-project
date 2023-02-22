@@ -33,6 +33,13 @@ export class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  setInputValues(data) {
+    this._selector.querySelectorAll('.form__item').forEach((input) => {
+      // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
+      input.value = data[input.name];
+    });
+  }
+
   _callbackForSetEventListeners = (evt) => {
     evt.preventDefault();
     this._callbackSubmit(evt, this._getInputValues());
