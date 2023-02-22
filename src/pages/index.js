@@ -8,8 +8,6 @@ import {
   popupProfileEdit,
   popupCardAdd,
   btnProfileAdd,
-  formUserName,
-  formUserProfession,
   btnPlaceAdd,
   avatarEdit,
   popupAvatarEdit,
@@ -33,7 +31,7 @@ const card = (item) => new Card({
     const popupCardImage = new PopupWithImage(
       data,
       popupCard,
-      {image: imagePopupCard,caption: captionPopupCard});
+      { image: imagePopupCard, caption: captionPopupCard });
     popupCardImage.open();
   }
 },
@@ -102,17 +100,16 @@ function handleDeleteCardBody(cardElement) {
 }
 
 // ------------------------------------------- Кнопка Редактирование профиля
+const popupClassProfileEdit = new PopupWithForm(handleProfileFormSubmit, popupProfileEdit);
+
+const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
+popupProfileEditFormValidator.enableValidation();
+
 btnProfileAdd.addEventListener('click', () => {
-  const popupClassProfileEdit = new PopupWithForm(
-    handleProfileFormSubmit,
-    popupProfileEdit);
 
   popupClassProfileEdit.open();
   popupClassProfileEdit.setInputValues(infoObject);
-/*   formUserName.value = infoObject.name; Исправил, надо удалить
-  formUserProfession.value = infoObject.prof; */
-  const popupProfileEditFormValidator = new FormValidator({ data: validationObject }, popupProfileEdit);
-  popupProfileEditFormValidator.enableValidation();
+  popupProfileEditFormValidator.resetValidation();
 });
 
 function handleProfileFormSubmit(evt, data) {
@@ -120,40 +117,43 @@ function handleProfileFormSubmit(evt, data) {
     return api.profileEditing(data['name'], data['profession']).then((userData) => {
       user.setUserInfo(userData.name, userData.about);
       infoObject = user.getUserInfo();
+      popupClassProfileEdit.close();
     });
   }
   handleSubmit(makeRequest, evt);
 }
 
 //----------------------Кнопка изменения аватара----------------------------
+const popupAvatar = new PopupWithForm(handleEditAvatarSubmit, popupAvatarEdit);
+
+const popupAvatarFormValidator = new FormValidator({ data: validationObject }, popupAvatarEdit);
+popupAvatarFormValidator.enableValidation();
+
 avatarEdit.addEventListener('click', () => {
-  const popupAvatar = new PopupWithForm(
-    handleEditAvatarSubmit,
-    popupAvatarEdit)
   popupAvatar.open();
-  const popupAvatarFormValidator = new FormValidator({ data: validationObject }, popupAvatarEdit);
-  popupAvatarFormValidator.enableValidation();
+  popupAvatarFormValidator.resetValidation();
 })
 
 function handleEditAvatarSubmit(evt, data) {
   function makeRequest() {
     return api.editAvatarFromServer(data['input-avatarEdit']).then((data) => {
-    user.setAvatar(data.avatar);
-    infoObject = user.getUserInfo();
-  });
-}
+      user.setAvatar(data.avatar);
+      infoObject = user.getUserInfo();
+      popupAvatar.close();
+    });
+  }
   handleSubmit(makeRequest, evt)
 }
 
 // ------------------------------------------- Кнопка добавления места
-btnPlaceAdd.addEventListener('click', () => {
-  const popupAddPlace = new PopupWithForm(
-    handlebtnPlaceAddSubmit,
-    popupCardAdd);
-  popupAddPlace.open();
-  const popupAddPlaceFormValidator = new FormValidator({ data: validationObject }, popupCardAdd);
-  popupAddPlaceFormValidator.enableValidation();
+const popupAddPlace = new PopupWithForm( handlebtnPlaceAddSubmit, popupCardAdd);
 
+const popupAddPlaceFormValidator = new FormValidator({ data: validationObject }, popupCardAdd);
+popupAddPlaceFormValidator.enableValidation();
+
+btnPlaceAdd.addEventListener('click', () => {
+  popupAddPlace.open();
+  // popupAddPlaceFormValidator.resetValidation()
 });
 function handlebtnPlaceAddSubmit(evt, data) {
   function makeRequest() {
@@ -161,11 +161,11 @@ function handlebtnPlaceAddSubmit(evt, data) {
       const newCard = card(result);
       const cardElement = newCard.generate(infoObject.id);
       cardList.setItem(cardElement);
-      // добавить close()
+      popupAddPlace.close();
     })
-    .catch((err) => {
-      console.log((err));
-    });
+      .catch((err) => {
+        console.log((err));
+      });
   }
   handleSubmit(makeRequest, evt);
 }

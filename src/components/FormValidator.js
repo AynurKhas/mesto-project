@@ -61,6 +61,15 @@ export class FormValidator {
     }
   };
 
+  resetValidation() {
+    this._toggleButtonState(); // управляем кнопкой
+
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement) // очищаем ошибки
+    });
+
+  }
+
   _setEventListeners() {
     // чтобы проверить состояние кнопки в самом начале
     this._toggleButtonState();
@@ -73,16 +82,6 @@ export class FormValidator {
     });
 
     this._inputList.forEach((inputElement) => {
-
-      const meaning = inputElement.value === "";
-    if (!meaning) {
-      this._hideInputError(inputElement);
-      this._checkInputValidity(inputElement);
-    } else {
-      this._checkInputValidity(inputElement);
-      this._hideInputError(inputElement);
-    }
-    this._toggleButtonState();
 
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
