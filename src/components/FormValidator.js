@@ -1,5 +1,5 @@
 export class FormValidator {
-  constructor({ data }, formElementInDom) {
+  constructor({ data }, elementInDom) {
     this._formSelector = data.formSelector;
     this._inputSelector = data.inputSelector;
     this._submitButtonSelector = data.submitButtonSelector;
@@ -7,7 +7,7 @@ export class FormValidator {
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
 
-    this._formElementInDom = formElementInDom;
+    this._elementInDom = elementInDom;
   }
 
   _showInputError(formElement, inputElement, errorMessage) {
@@ -90,13 +90,15 @@ export class FormValidator {
     });
   };
 
-  enableValidation() {
-    const formList = Array.from(this._formElementInDom.querySelectorAll(this._formSelector));
-    formList.forEach((formElement) => {
-      formElement.addEventListener('submit', function (evt) {
-        evt.preventDefault();
-      });
-      this._setEventListeners(formElement);
+  _initFormElement() {
+    const formElement = this._elementInDom.querySelector(this._formSelector);
+    formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
     });
+    this._setEventListeners(formElement);
+  }
+
+  enableValidation() {
+    this._initFormElement();
   };
 }

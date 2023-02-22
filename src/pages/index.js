@@ -169,6 +169,7 @@ function handlebtnPlaceAddSubmit(evt, data) {
       const newCard = card(result);
       const cardElement = newCard.generate(infoObject.id);
       cardList.setItem(cardElement);
+      // добавить close()
     })
     .catch((err) => {
       console.log((err));
