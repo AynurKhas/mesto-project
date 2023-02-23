@@ -25,14 +25,15 @@ import { UserInfo } from '../components/UserInfo';
 
 let infoObject = {};
 
-const card = (item) => new Card({
+// ---------------------------попап картинки по нажатию на изображение карточки-----------
+const popupCardImage = new PopupWithImage( popupCard, { image: imagePopupCard, caption: captionPopupCard });
+
+// ---------------------------------------------------------------------------------------
+
+const createСard = (item) => new Card({
   data: item,
   handleCardClick: (data) => {
-    const popupCardImage = new PopupWithImage(
-      data,
-      popupCard,
-      { image: imagePopupCard, caption: captionPopupCard });
-    popupCardImage.open();
+    popupCardImage.open(data);
   }
 },
   handleLikeClickBody,
@@ -41,7 +42,7 @@ const card = (item) => new Card({
 
 const cardList = new Section({
   renderer: (item) => {
-    const newCard = card(item);
+    const newCard = createСard(item);
     const cardElement = newCard.generate(infoObject.id);
     cardList.setItem(cardElement);
   }
@@ -158,7 +159,7 @@ btnPlaceAdd.addEventListener('click', () => {
 function handlebtnPlaceAddSubmit(evt, data) {
   function makeRequest() {
     return api.addCardtToServer(data['place'], data['link-place']).then((result) => {
-      const newCard = card(result);
+      const newCard = createСard(result);
       const cardElement = newCard.generate(infoObject.id);
       cardList.setItem(cardElement);
       popupAddPlace.close();

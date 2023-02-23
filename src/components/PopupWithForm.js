@@ -6,6 +6,7 @@ export class PopupWithForm extends Popup {
     this._callbackSubmit = callbackSubmit;
     this._elementInDom = elementInDom;
     this._inputList = this._elementInDom.querySelectorAll('.form__item');
+    this._form = this._elementInDom.querySelector('.form');
   }
 
   _getInputValues() {
@@ -42,6 +43,6 @@ export class PopupWithForm extends Popup {
   close() {
     super.close();
     this._elementInDom.removeEventListener('submit', this._callbackForSetEventListeners);
-    this._elementInDom.querySelector('.form').reset(); // Очищение формы нужно оформить через метод reset
+    this._form.reset(); // Очищение формы нужно оформить через метод reset
   }
 }
